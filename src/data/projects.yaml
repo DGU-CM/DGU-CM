@@ -1,0 +1,308 @@
+# ─────────────────────────────────────────────────────────────
+#  연구·용역 과제 목록  (분기마다 수정하는 파일)
+# ─────────────────────────────────────────────────────────────
+#  · 한 과제 = "- id:" 로 시작하는 한 덩어리입니다.
+#  · id     : 영문 소문자·숫자·하이픈만 (예: 2027-smart-safety). 중복 금지.
+#  · area   : policy(정책·제도) | cost-pm(공사비·사업관리) | smart(스마트건설·디지털) | global(글로벌 건설시장)
+#  · start  : 시작 연도 (숫자 4자리)
+#  · end    : 종료 연도. 진행 중이면 이 줄을 지우거나 비워 두세요.
+#  · image  : (선택) src/assets/photos/ 폴더에 넣은 사진 파일명
+#  · client : clients.yaml 에 등록된 기관명과 똑같이 적습니다 (없으면 clients.yaml 에 먼저 추가)
+#  · featured: true 이면 '주요 사례' 카드로 표시 (6건 내외 권장, summary 필수)
+#      summary / summary_en : problem·approach·outcome (국문 / 영문)
+#      related : 함께 보여 줄 연관·후속 과제 id 목록
+#      order   : 주요 사례 표시 순서 (작을수록 앞)
+#  · 홈페이지에는 전체 목록이 아니라 '주요 사례'와 발주기관 네트워크만 보입니다.
+#    전체 수행 과제 수는 src/site.config.ts 의 projectsTotal 로 표시합니다.
+#
+#  ※ 출처: 「건설관리 및 경영 연구실 소개자료 (2026.11.26)」에 표기된 27건 (전체 약 50건 중 일부).
+#    자료에서 "…"로 생략된 나머지 과제는 확인되는 대로 추가하세요.
+#  ※ featured 과제의 summary 문구는 초안입니다. 교수 감수 후 확정하세요.
+# ─────────────────────────────────────────────────────────────
+
+- id: 2006-road-structure-cost
+  title: 도로구조물 공사비 산정모델 및 기준 개발
+  title_en: Cost Estimation Model and Standards for Road Structures
+  client: 건설교통기술평가원
+  start: 2006
+  end: 2006
+  area: cost-pm
+
+- id: 2007-megaproject-cm-system
+  title: 메가프로젝트 건설관리 시스템 개발
+  title_en: Construction Management System for Mega-Projects
+  client: LH 공사
+  start: 2007
+  end: 2007
+  area: cost-pm
+
+- id: 2008-intl-engineering-bidding
+  title: 국제 엔지니어링 입낙찰 제도 연구용역
+  title_en: International Engineering Bidding and Award Systems
+  client: 한국엔지니어링협회
+  start: 2008
+  end: 2008
+  area: policy
+
+- id: 2008-industry-structure-reform
+  title: 산업 구조 선진화를 위한 건설 업종·업역 체계 개편 방안
+  title_en: Restructuring Construction Business Categories for Industry Advancement
+  client: 국토교통부
+  start: 2008
+  end: 2008
+  area: policy
+
+- id: 2009-daewoo-consulting
+  title: 대우건설 컨설팅 용역
+  title_en: Management Consulting for Daewoo E&C
+  client: 대우건설
+  start: 2009
+  end: 2009
+  area: cost-pm
+
+- id: 2009-green-energy-strategy
+  title: 그린에너지 시장 진출 전략 수립 연구
+  title_en: Market Entry Strategy for the Green Energy Sector
+  client: 해외건설협회
+  start: 2009
+  end: 2009
+  area: global
+
+- id: 2012-overseas-rnd-roadmap
+  title: 해외시장 진출 확대를 위한 R&D 로드맵 구축
+  title_en: R&D Roadmap for Expanding Overseas Construction Markets
+  client: 건설교통기술평가원
+  start: 2012
+  end: 2012
+  area: global
+
+- id: 2012-north-america-competency
+  title: 북미 엔지니어링시장 진출을 위한 핵심역량 모델 개발 및 평가
+  title_en: Core Competency Model for Entering the North American Engineering Market
+  client: 한국건설기술연구원
+  start: 2012
+  end: 2012
+  area: global
+  featured: true
+  order: 6
+  image: feat-global.jpg
+  related: [2012-overseas-rnd-roadmap, 2009-green-energy-strategy]
+  summary:
+    problem: 북미 엔지니어링 시장은 규모가 크지만 진입장벽이 높아, 국내 기업에 필요한 역량을 객관적으로 진단할 기준이 필요했습니다.
+    approach: 북미 시장 진출을 위한 핵심역량 모델을 개발하고, 이를 바탕으로 국내 기업의 역량을 평가했습니다.
+    outcome: 해외시장 R&D 로드맵(2012)·그린에너지 진출 전략(2009)과 함께 글로벌 진출 전략 연구의 축을 이뤘습니다.
+  summary_en:
+    problem: North America is a large but hard-to-enter engineering market; Korean firms needed an objective way to assess their readiness.
+    approach: Developed a core competency model for market entry and used it to evaluate Korean engineering firms.
+    outcome: Together with an overseas R&D roadmap (2012) and a green-energy entry strategy (2009), it anchors the lab's global market research.
+
+- id: 2013-usfk-relocation-efficiency
+  title: 주한미군기지이전사업 건설관리 효율화 방안 연구
+  title_en: Improving Construction Management for the USFK Base Relocation Program
+  client: 국방부
+  start: 2013
+  end: 2013
+  area: cost-pm
+
+- id: 2014-seismic-business-continuity
+  title: 지진 및 지진해일 대비 토목시설물 업무연속성 관리기술 개발
+  title_en: Business Continuity Management for Civil Infrastructure against Earthquakes and Tsunamis
+  client: 소방방재청
+  start: 2014
+  end: 2014
+  area: smart
+
+- id: 2014-engineer-growth-strategy
+  title: 건설기술인의 신성장 전략과 역량 강화 방안
+  title_en: Growth Strategy and Capacity Building for Construction Engineers
+  client: 한국건설기술인협회
+  start: 2014
+  end: 2014
+  area: policy
+
+- id: 2015-construction-promotion-act
+  title: 건설진흥법령 관련 이슈 진단 및 합리적 개선방향 연구
+  title_en: Diagnosis and Improvement of the Construction Technology Promotion Act
+  client: 대한토목학회
+  start: 2015
+  end: 2015
+  area: policy
+
+- id: 2015-usfk-cm-consulting
+  title: 주한미군기지이전사업 건설사업관리 컨설팅 용역
+  title_en: Construction Management Consulting for the USFK Base Relocation Program
+  client: 국방부
+  start: 2015
+  end: 2015
+  area: cost-pm
+  featured: true
+  order: 3
+  image: feat-usfk.jpg
+  related: [2013-usfk-relocation-efficiency]
+  summary:
+    problem: 주한미군기지이전사업은 수많은 시설과 이해관계자가 얽힌 국가 메가프로그램으로, 체계적인 건설사업관리가 필수였습니다.
+    approach: 2013년 건설관리 효율화 방안 연구에 이어, 2015년 사업의 건설사업관리(CM) 컨설팅을 수행했습니다.
+    outcome: 연구에서 컨설팅으로 이어진 연속 수행으로 국방 메가프로그램의 사업관리 체계 개선을 지원했습니다.
+  summary_en:
+    problem: The USFK base relocation is a national mega-program with many facilities and stakeholders — it demands rigorous construction management.
+    approach: Following a 2013 study on improving the program's construction management, the lab delivered CM consulting for the Ministry of National Defense in 2015.
+    outcome: Two consecutive engagements — from research to hands-on consulting — that supported better management of a defense mega-program.
+
+- id: 2015-actual-cost-abolition
+  title: 실적공사비 폐지 등에 따른 건설공사비 산정, 관리, 운영방안 마련
+  title_en: Cost Estimation and Management after Abolishing the Actual-Cost Method
+  client: 대한건설협회
+  start: 2015
+  end: 2015
+  area: cost-pm
+
+- id: 2016-cost-adequacy-policy
+  title: 공사비 적정성 확보를 위한 정책제안 연구
+  title_en: Policy Proposals for Securing Adequate Construction Costs
+  client: 대한토목학회
+  start: 2016
+  end: 2016
+  area: cost-pm
+
+- id: 2016-best-value-procurement
+  title: 건설기술용역 종합심사낙찰제 도입 연구 (1~3차)
+  title_en: Introducing Best-Value Procurement for Construction Engineering Services (Phase 1–3)
+  client: 국토교통부
+  start: 2016
+  end: 2017
+  area: policy
+  featured: true
+  order: 2
+  image: feat-procurement.jpg
+  related: [2018-best-value-guideline]
+  summary:
+    problem: 가격 위주의 건설기술용역 낙찰 방식으로는 기술력이 우수한 업체를 선별하기 어렵다는 문제가 제기되었습니다.
+    approach: 기술력과 가격을 종합 평가하는 종합심사낙찰제의 도입 방안을 1~3차에 걸친 연속 연구로 설계했습니다.
+    outcome: 2018년 발주자 운영지침 마련 연구로 이어지며, 국가 발주제도의 설계부터 현장 운영까지 함께했습니다.
+  summary_en:
+    problem: Price-driven awards for engineering services made it hard to select the most technically capable firms.
+    approach: Designed a best-value scheme that weighs technical capability and price together, across three consecutive study phases for MOLIT.
+    outcome: Followed by the 2018 owner's operating-guideline study — supporting a national procurement reform from design to day-to-day operation.
+
+- id: 2018-sustainable-future-industry
+  title: 건설산업 환경변화의 선제적 대응을 위한 지속가능한 미래 건설산업 발전방안
+  title_en: Sustainable Development Strategy for the Future Construction Industry
+  client: 대한건설정책연구원
+  start: 2018
+  end: 2018
+  area: policy
+
+- id: 2018-public-construction-cost
+  title: 공공공사비 산정 및 관리 실태와 제도적 개선 방안
+  title_en: Public Construction Cost Estimation and Management — Status and Institutional Improvements
+  client: 대한건설협회
+  start: 2018
+  end: 2018
+  area: cost-pm
+  featured: true
+  order: 4
+  image: feat-cost.jpg
+  related: [2015-actual-cost-abolition, 2016-cost-adequacy-policy]
+  summary:
+    problem: 공공공사비가 적정하게 산정·관리되지 않으면 품질 저하와 분쟁, 산업 전반의 수익성 악화로 이어질 수 있습니다.
+    approach: 공공공사비 산정 및 관리 실태를 분석하고, 산정 기준과 관리 체계 전반의 제도적 개선 방안을 마련했습니다.
+    outcome: 실적공사비 폐지(2015)·공사비 적정성(2016) 연구에 이은 공사비 연구 시리즈로, 적정 공사비 논의의 근거를 제시했습니다.
+  summary_en:
+    problem: Inadequately estimated public construction costs lead to lower quality, disputes and an unhealthy industry.
+    approach: Analyzed how public construction costs are estimated and managed, and proposed institutional improvements to standards and processes.
+    outcome: Part of a multi-year cost research series (2015 · 2016 · 2018) that has informed the national debate on adequate construction costs.
+
+- id: 2018-drone-iot-safety
+  title: 드론을 활용한 사물인터넷 기반 안전·환경관리모델 개발 연구
+  title_en: Drone- and IoT-Based Safety and Environmental Management Model for Construction Sites
+  client: 한국연구재단
+  start: 2018
+  end: 2018
+  area: smart
+
+- id: 2018-best-value-guideline
+  title: 건설기술용역 종합심사낙찰제 발주자 운영지침 마련 연구
+  title_en: Owner's Operating Guidelines for Best-Value Procurement of Engineering Services
+  client: 국토교통부
+  start: 2018
+  end: 2018
+  area: policy
+
+- id: 2018-policy-shift-growth
+  title: 정부 건설산업 정책 기조 변화에 대응한 향후 성장 전략 연구
+  title_en: Growth Strategy in Response to Shifts in Government Construction Policy
+  client: 대한토목학회
+  start: 2018
+  end: 2018
+  area: policy
+
+- id: 2019-fair-trade-index
+  title: 공공 발주처 공정거래지수 개발 연구
+  title_en: Fair Trade Index for Public Construction Owners
+  client: 건설산업비전포럼
+  start: 2019
+  end: 2019
+  area: policy
+
+- id: 2019-blockchain-marketplace
+  title: 블록체인기술을 활용한 온라인 건설거래 시장 모델 개발 연구
+  title_en: Blockchain-Based Online Construction Marketplace Model
+  client: 한국연구재단
+  start: 2019
+  end: 2024
+  area: smart
+
+- id: 2020-future-workforce
+  title: 미래 건설 기술인력 육성 전략 연구
+  title_en: Strategy for Developing the Future Construction Workforce
+  client: 건설기술교육원
+  start: 2020
+  end: 2020
+  area: policy
+  featured: true
+  order: 5
+  image: feat-workforce.jpg
+  related: [2014-engineer-growth-strategy]
+  summary:
+    problem: 스마트건설 시대에 필요한 역량과 현재 대학 교육 사이의 간극이 커지고 있습니다.
+    approach: 미래 건설 기술인력에게 필요한 역량을 정의하고 대학교육 개선 부문 전략을 수립했습니다.
+    outcome: 대학 교육과정 개선을 포함한 기술인력 육성 전략을 제안했습니다.
+  summary_en:
+    problem: The gap is widening between the skills smart construction demands and what universities teach today.
+    approach: Defined the competencies the future construction workforce needs and built a strategy for university education.
+    outcome: Proposed a workforce development strategy, including curriculum reform for universities.
+
+- id: 2020-global-procurement
+  title: 글로벌 발주제도 조사 및 국내 제도 개선방안 연구
+  title_en: Global Procurement Systems Survey and Domestic Improvement Measures
+  client: 한국엔지니어링협회
+  start: 2020
+  end: 2020
+  area: policy
+
+- id: 2025-quality-management
+  title: 건설품질 관리체계 개선 연구
+  title_en: Improving the Construction Quality Management Framework
+  client: 국토교통부
+  start: 2025
+  end: 2025
+  area: policy
+
+- id: 2026-multipurpose-robot
+  title: 공동주택 건설생산성 혁신을 위한 다용도 건설작업로봇 설계 및 통합관리 기술
+  title_en: Multi-Purpose Construction Robots and Integrated Management for Apartment Housing Productivity
+  client: 국토진흥원
+  start: 2026
+  area: smart
+  featured: true
+  order: 1
+  image: feat-robot.jpg
+  related: [2019-blockchain-marketplace, 2018-drone-iot-safety]
+  summary:
+    problem: 공동주택 현장은 숙련 인력 부족과 정체된 생산성이라는 구조적 한계에 부딪혀 있습니다.
+    approach: 여러 공정에 투입할 수 있는 다용도 건설작업로봇을 설계하고, 현장 공정에 맞춰 로봇을 운영하는 통합관리 기술을 개발합니다.
+    outcome: 진행 중인 국가 R&D로, 로봇과 사람이 함께 일하는 공동주택 현장의 관리 모델을 만들어 가고 있습니다.
+  summary_en:
+    problem: Apartment construction faces a shrinking skilled workforce and stagnant productivity.
+    approach: Designing multi-purpose construction robots for multiple work packages, plus an integrated management system that runs them in step with the site schedule.
+    outcome: An ongoing national R&D project building the management model for sites where robots and people work side by side.

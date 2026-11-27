@@ -1,0 +1,171 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { url } from '../lib/data';
+import { localePath, type Lang } from '../lib/i18n';
+
+interface Props { lang?: Lang; path?: string }
+const { lang = 'en', path } = Astro.props;
+const here = path ?? '/';
+const L = (p: string) => url(localePath(lang, p));
+
+const nav = [
+  { href: '/about', en: 'About', ko: '연구실 소개' },
+  { href: '/research', en: 'Research', ko: '연구·과제' },
+  { href: '/publications', en: 'Publications', ko: '성과' },
+  { href: '/people', en: 'People', ko: '구성원·진로' },
+  { href: '/join', en: 'Join Us', ko: '지원 안내' },
+];
+const active = (href: string) => here === href;
+const langs: { l: Lang; label: string; full: string }[] = [
+  { l: 'en', label: 'EN', full: 'English' },
+  { l: 'ko', label: 'KO', full: '한국어' },
+];
+---
+<header class="site-header" data-header>
+  <div class="container site-header__inner">
+    <a class="brand" href={L('/')}>
+      <Logo />
+      <span class="brand__text">
+        <strong>DGU CM Lab</strong>
+        <small>{lang === 'ko' ? '건설관리 및 경영 연구실' : 'Construction Management Lab'}</small>
+      </span>
+    </a>
+
+    <nav class="gnb" aria-label={lang === 'ko' ? '주 메뉴' : 'Main menu'}>
+      <ul>
+        {nav.map((n) => (
+          <li>
+            <a href={L(n.href)} class:list={{ 'is-active': active(n.href) }} aria-current={active(n.href) ? 'page' : undefined}>
+              {lang === 'ko' ? n.ko : n.en}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="site-header__tools">
+      <div class="lang-switch" role="group" aria-label={lang === 'ko' ? '언어 선택' : 'Language'}>
+        {langs.map((x) => (
+          <a href={url(localePath(x.l, here))} hreflang={x.l} lang={x.l} data-lang={x.l} class:list={{ 'is-on': x.l === lang }} aria-current={x.l === lang ? 'true' : undefined} title={x.full}>{x.label}</a>
+        ))}
+      </div>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-btn>
+        <span class="sr-only">{lang === 'ko' ? '메뉴' : 'Menu'}</span>
+        <Icon name="menu" size={24} class="i-open" />
+        <Icon name="close" size={24} class="i-close" />
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" data-menu hidden>
+    <ul class="container">
+      {nav.map((n, i) => (
+        <li style={`--i:${i}`}>
+          <a href={L(n.href)}>
+            <span>{n.en}</span>
+            {lang === 'ko' && <small>{n.ko}</small>}
+          </a>
+        </li>
+      ))}
+      <li style={`--i:${nav.length}`} class="mobile-menu__lang">
+        {langs.map((x) => (
+          <a href={url(localePath(x.l, here))} hreflang={x.l} lang={x.l} data-lang={x.l} class:list={{ 'is-on': x.l === lang }}>{x.full}</a>
+        ))}
+      </li>
+    </ul>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]')!;
+  const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  const btn = document.querySelector<HTMLButtonElement>('[data-menu-btn]')!;
+  const menu = document.querySelector<HTMLElement>('[data-menu]')!;
+  const setOpen = (open: boolean) => {
+    btn.setAttribute('aria-expanded', String(open));
+    header.classList.toggle('menu-open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (open) menu.hidden = false;
+    else setTimeout(() => (menu.hidden = true), 250);
+  };
+  btn.addEventListener('click', () => setOpen(btn.getAttribute('aria-expanded') !== 'true'));
+  menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  window.addEventListener('keydown', (e) => e.key === 'Escape' && setOpen(false));
+
+  // 사용자가 고른 언어를 기억 (다음 방문 시 영어 기본 페이지에서 한국어로 안내)
+  document.querySelectorAll<HTMLAnchorElement>('[data-lang]').forEach((a) =>
+    a.addEventListener('click', () => {
+      try { localStorage.setItem('cmlab-lang', a.dataset.lang!); } catch { /* storage blocked */ }
+    }),
+  );
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    height: var(--header-h);
+    background: rgba(247, 246, 242, 0.82);
+    backdrop-filter: saturate(1.4) blur(14px);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .site-header.is-scrolled { border-bottom-color: var(--line); background: rgba(247, 246, 242, 0.92); }
+  .site-header__inner { height: 100%; display: flex; align-items: center; gap: 24px; }
+  .brand { display: flex; align-items: center; gap: 12px; margin-right: auto; }
+  .brand__text { display: grid; line-height: 1.15; }
+  .brand__text strong { white-space: nowrap; font-size: 17px; letter-spacing: -0.02em; font-weight: 800; }
+  .brand__text small { font-size: 12px; color: var(--ink-3); font-weight: 500; letter-spacing: -0.01em; }
+  .gnb ul { display: flex; list-style: none; gap: 4px; }
+  .gnb a {
+    position: relative; display: block; padding: 8px 14px; font-weight: 600; font-size: 15.5px; color: var(--ink-2);
+    border-radius: 999px; transition: color 0.2s, background 0.2s;
+  }
+  .gnb a:hover { color: var(--ink); background: var(--paper-2); }
+  .gnb a.is-active { color: var(--ink); }
+  .gnb a.is-active::after {
+    content: ''; position: absolute; left: 14px; right: 14px; bottom: 2px; height: 6px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 6' preserveAspectRatio='none'%3E%3Cpath d='M1 4.2C20 2 45 1.5 99 3.4' stroke='%23E8641C' stroke-width='2.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") center/100% 100% no-repeat;
+  }
+  .site-header__tools { display: flex; align-items: center; gap: 10px; }
+  .lang-switch { display: flex; padding: 3px; border-radius: 999px; border: 1.5px solid var(--line-2); background: rgba(255,255,255,.6); }
+  .lang-switch a {
+    display: grid; place-items: center; min-width: 36px; height: 30px; padding: 0 8px; border-radius: 999px;
+    font-family: var(--font-mono); font-size: 12.5px; font-weight: 600; color: var(--ink-3); transition: color .2s, background .2s;
+  }
+  .lang-switch a:hover { color: var(--ink); }
+  .lang-switch a.is-on { background: var(--ink); color: #fff; }
+  .mobile-menu__lang { display: flex; gap: 8px; padding: 18px 0; }
+  .mobile-menu .mobile-menu__lang a { display: inline-flex; padding: 8px 16px; border-radius: 999px; border: 1.5px solid var(--line-2); font-weight: 700; font-size: 16px; }
+  .mobile-menu .mobile-menu__lang a.is-on { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .menu-btn { display: none; width: 42px; height: 42px; border: 0; background: transparent; cursor: pointer; place-items: center; }
+  .menu-btn :global(.i-close) { display: none; }
+  .menu-open .menu-btn :global(.i-open) { display: none; }
+  .menu-open .menu-btn :global(.i-close) { display: block; }
+  .mobile-menu {
+    position: fixed; inset: var(--header-h) 0 0 0; background: var(--paper); padding-top: 24px;
+    opacity: 0; transition: opacity 0.25s;
+  }
+  .menu-open .mobile-menu { opacity: 1; }
+  .mobile-menu ul { list-style: none; display: grid; }
+  .mobile-menu li {
+    border-bottom: 1px solid var(--line); opacity: 0; transform: translateY(10px);
+    transition: opacity 0.4s var(--ease) calc(var(--i) * 0.04s), transform 0.4s var(--ease) calc(var(--i) * 0.04s);
+  }
+  .menu-open .mobile-menu li { opacity: 1; transform: none; }
+  .mobile-menu a { display: flex; align-items: baseline; justify-content: space-between; padding: 18px 0; }
+  .mobile-menu a span { font-size: 30px; font-weight: 800; letter-spacing: -0.04em; }
+  .mobile-menu a small { color: var(--ink-3); font-size: 14px; }
+  @media (max-width: 960px) {
+    .gnb { display: none; }
+    .menu-btn { display: grid; }
+  }
+  @media (max-width: 420px) { .brand__text small { display: none; } .lang-switch a { min-width: 34px; padding: 0 6px; } }
+  @media (pointer: coarse) { .lang-switch a { height: 36px; } }
+</style>

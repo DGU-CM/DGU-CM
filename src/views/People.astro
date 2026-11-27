@@ -1,0 +1,204 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import CareerMap from '../components/CareerMap.astro';
+import { SITE } from '../site.config';
+import { photoImg } from '../lib/images';
+import { getPeople, getStats, ROLE_LABEL, personName, url } from '../lib/data';
+import { localePath, pick, type Lang } from '../lib/i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = pick(lang);
+const ko = lang === 'ko';
+const L = (p: string) => url(localePath(lang, p));
+
+const [people, stats] = await Promise.all([getPeople(), getStats()]);
+const prof = people.find((p) => p.role === 'prof');
+const members = people
+  .filter((p) => !['prof', 'alumni'].includes(p.role))
+  .sort((a, b) => ROLE_LABEL[a.role].order - ROLE_LABEL[b.role].order);
+const roles = [...new Set(members.map((m) => m.role))];
+const initials = (m: (typeof people)[number]) => {
+  if (ko || !m.name_en) return (m.name ?? '').slice(0, 1);
+  return m.name_en.split(/\s+/).map((w) => w[0]).join('').slice(0, 2).toUpperCase();
+};
+const profName = prof ? personName(prof, lang) : '';
+---
+<Base lang={lang} path="/people" title="People" description={t('DGU CM Lab 지도교수, 소속 연구원, CM 전공자 진출 분야', 'DGU CM Lab — professor, lab members and career paths for construction management graduates')}>
+  <PageHero
+    eyebrow="People"
+    title="People"
+    sub={t('제도와 현장을 함께 고민하는 사람들', 'The people behind the research')}
+    lead={t(`지도교수와 ${members.length}명의 소속 연구원이 국가 과제와 산업 연구를 함께 수행합니다.`, `A professor and ${members.length} lab members working together on national projects and industry research.`)}
+  />
+
+  <!-- PROFESSOR -->
+  {prof && (
+    <section class="section prof">
+      <div class="container prof__grid">
+        <div class="prof__photo reveal">
+          <div class="prof__frame">
+            <Image src={photoImg('professor.png')!} alt={t(`${prof.name} 교수 사진`, `Photo of Prof. ${profName}`)} widths={[320, 480, 640]} sizes="(max-width: 900px) 60vw, 360px" quality={90} loading="eager" />
+          </div>
+        </div>
+        <div class="prof__body reveal" style="--d:.1s">
+          <p class="eyebrow">Principal Investigator</p>
+          {ko ? (
+            <h2 class="prof__name">{prof.name} <span>교수</span></h2>
+          ) : (
+            <h2 class="prof__name"><span>Prof.</span> {profName}</h2>
+          )}
+          <p class="prof__title">{ko ? `${SITE.university} ${prof.title}` : `${prof.title_en}, ${SITE.universityEn}`}</p>
+          <p class="prof__pitch">
+            {t(
+              `University of Texas at Austin에서 건설공학·프로젝트관리(CEPM)로 석·박사 학위를 받았습니다. ${stats.firstYear}년부터 ${stats.projectsTotal}여 건의 정부·공공·산업 연구를 이끌며 국가 발주제도 개편, 국방 메가프로그램 건설사업관리, 건설로봇 R&D까지 제도와 현장을 잇는 연구를 해 왔습니다.`,
+              `M.S. and Ph.D. in Construction Engineering and Project Management from The University of Texas at Austin. Since ${stats.firstYear} he has led ${stats.projectsTotal}+ government, public and industry research projects, from national procurement reform and defense mega-program management to construction robotics R&D.`,
+            )}
+          </p>
+          {(ko ? prof.interests : prof.interests_en ?? prof.interests) && (
+            <div class="prof__block">
+              <h3>{t('세부 연구분야', 'Research areas')}</h3>
+              <ul class="prof__tags">{(ko ? prof.interests : prof.interests_en ?? prof.interests)!.map((x) => <li class="chip">{x}</li>)}</ul>
+            </div>
+          )}
+          <dl class="prof__info">
+            {prof.field && <div><dt><Icon name="compass" size={16} />{t('전공 분야', 'Field')}</dt><dd>{ko ? prof.field : prof.field_en ?? prof.field}</dd></div>}
+            {prof.office && <div><dt><Icon name="pin" size={16} />{t('교수 연구실', 'Office')}</dt><dd>{ko ? prof.office : prof.office_en ?? prof.office}</dd></div>}
+            <div><dt><Icon name="building" size={16} />{t('연구실(랩)', 'Lab')}</dt><dd>{ko ? SITE.locationShort : 'Room F612, Wonheung-gwan'}</dd></div>
+            {prof.phone && <div><dt><Icon name="phone" size={16} />{t('전화', 'Phone')}</dt><dd><a href={`tel:${prof.phone.replace(/-/g, '')}`}>{ko ? prof.phone : `+82-${prof.phone.replace(/^0/, '')}`}</a></dd></div>}
+            {prof.email && <div><dt><Icon name="mail" size={16} />{t('이메일', 'Email')}</dt><dd><a href={`mailto:${prof.email}`}>{prof.email}</a></dd></div>}
+          </dl>
+          <div class="prof__cv">
+            {prof.education && (
+              <div class="prof__cvblock">
+                <h3>{t('학력', 'Education')}</h3>
+                <ul class="prof__list">{prof.education.map((e) => <li>{ko ? e.ko : e.en}</li>)}</ul>
+              </div>
+            )}
+            {prof.teaching && (
+              <div class="prof__cvblock">
+                <h3>{t('담당 과목', 'Courses taught')}</h3>
+                <ul class="prof__tags">{prof.teaching.map((c) => <li class="chip">{ko ? c.ko : c.en}</li>)}</ul>
+              </div>
+            )}
+            {prof.papers && (
+              <div class="prof__cvblock">
+                <h3>{t('대표 논문', 'Selected papers')}</h3>
+                <ul class="prof__list prof__papers">{prof.papers.map((x) => <li>{x}</li>)}</ul>
+              </div>
+            )}
+          </div>
+          <div class="prof__links">
+            {SITE.scholarUrl && <a class="btn btn--primary" href={SITE.scholarUrl} target="_blank" rel="noopener"><Icon name="scholar" />Google Scholar</a>}
+            <a class="btn btn--ghost" href={L('/research')}>{t('주요 연구 사례', 'Key research cases')} <Icon name="arrow" /></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- MEMBERS -->
+  <section class="section section--paper2" id="members">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div>
+          <p class="eyebrow">Members</p>
+          <h2 class="h2" style="margin-top:16px">{t('소속 연구원', 'Lab members')}</h2>
+        </div>
+        <p class="lead">{t('전문연구원과 석·박사 과정, 학부연구생이 국가 과제와 논문 연구를 함께 수행합니다. 한국과 해외 출신 연구원이 함께하는 국제적인 연구실입니다.', 'Research fellows, Ph.D. and M.S. students and undergraduate researchers work together on national projects and papers — an international team with members from Korea and abroad.')}</p>
+      </div>
+      {roles.map((role) => (
+        <div class="mgroup">
+          <h3 class="mgroup__title"><span>{ko ? ROLE_LABEL[role].ko : ROLE_LABEL[role].en}</span><span class="mono muted">{ko ? `${ROLE_LABEL[role].en} · ` : ''}{members.filter((m) => m.role === role).length}</span></h3>
+          <ul class="mgrid">
+            {members.filter((m) => m.role === role).map((m, i) => (
+              <li class="mcard reveal" style={`--d:${i * 0.05}s`}>
+                <span class:list={['mcard__avatar', `r-${m.role}`, { 'is-latin': !ko }]} aria-hidden="true">{initials(m)}</span>
+                <div>
+                  <p class="mcard__name">{personName(m, lang)}</p>
+                  <p class="mcard__role">{ko ? ROLE_LABEL[m.role].ko : ROLE_LABEL[m.role].en}{!ko && m.name && <span lang="ko"> · {m.name}</span>}</p>
+                  {(ko ? m.interests : m.interests_en) && <p class="mcard__int">{(ko ? m.interests : m.interests_en)!.join(' · ')}</p>}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- CAREERS -->
+  <section class="section careers" id="careers">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div>
+          <p class="eyebrow">Careers</p>
+          <h2 class="h2" style="margin-top:16px">{ko ? <>CM 전공자,<br />어디로 진출할까요?</> : <>Where a CM degree<br />can take you</>}</h2>
+        </div>
+        <p class="lead">
+          {t(
+            '건설관리 전공자는 사업관리·원가·계약·정책 역량으로 CM·엔지니어링사, 건설사, 공공기관은 물론 금융, 컨설팅, 해외건설까지 폭넓게 진출할 수 있습니다.',
+            'With skills in project controls, cost, contracts and policy, CM graduates can work at CM and engineering firms, contractors and public agencies — and in finance, consulting and global construction.',
+          )}
+        </p>
+      </div>
+
+      <CareerMap lang={lang} />
+
+    </div>
+  </section>
+</Base>
+
+<style>
+  .prof__grid { display: grid; gap: 56px; align-items: start; }
+  .prof__grid > *, .prof__cv > * { min-width: 0; }
+  .prof__tags .chip { white-space: normal; height: auto !important; min-height: 34px; padding-block: 6px; line-height: 1.35; }
+  .prof__info dd { overflow-wrap: anywhere; }
+  @media (max-width: 899px) { .prof__grid { gap: 36px; } .prof__photo { max-width: 260px; margin-inline: auto; } }
+  @media (min-width: 900px) { .prof__photo { position: sticky; top: calc(var(--header-h) + 32px); } }
+  @media (min-width: 900px) { .prof__grid { grid-template-columns: 0.75fr 1.25fr; gap: 96px; } }
+  .prof__photo { position: relative; max-width: 380px; }
+  .prof__frame { border-radius: 20px; overflow: hidden; background: #fff; box-shadow: var(--shadow-2); border: 8px solid #fff; transform: rotate(-1.5deg); }
+  .prof__frame :global(img) { width: 100%; }
+  .prof__name { font-size: clamp(40px, 5vw, 64px); letter-spacing: -0.05em; margin-top: 18px; }
+  .prof__name span { font-size: 0.45em; color: var(--ink-2); letter-spacing: -0.02em; font-weight: 700; }
+  .prof__title { margin-top: 8px; color: var(--ink-2); font-size: 17px; }
+  .prof__pitch { margin-top: 22px; font-size: 17px; line-height: 1.75; color: var(--ink); font-weight: 500; max-width: 620px; }
+  .prof__block { margin-top: 28px; }
+  .prof__block h3 { font-size: 14px; letter-spacing: -0.01em; color: var(--ink-3); margin-bottom: 12px; font-weight: 700; display: flex; justify-content: space-between; }
+  .prof__tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+  .prof__tags .chip { height: 34px; font-size: 14px; background: var(--surface); border: 1px solid var(--line); }
+  .prof__info { margin: 28px 0 0; display: grid; gap: 10px; border-top: 1px solid var(--line); padding-top: 20px; }
+  .prof__info div { display: grid; grid-template-columns: 110px 1fr; }
+  .prof__info dt { display: flex; gap: 8px; align-items: center; color: var(--ink-3); font-size: 14.5px; font-weight: 600; }
+  .prof__info dd { margin: 0; font-weight: 600; }
+  .prof__info dd a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--line-2); }
+  .prof__cv { margin-top: 28px; display: grid; gap: 24px; border-top: 1px solid var(--line); padding-top: 24px; }
+  .prof__cvblock h3 { font-size: 14px; color: var(--ink-3); margin-bottom: 10px; font-weight: 700; }
+  .prof__list { list-style: none; display: grid; gap: 8px; }
+  .prof__list li { position: relative; padding-left: 16px; font-size: 15px; line-height: 1.6; color: var(--ink); }
+  .prof__list li::before { content: ''; position: absolute; left: 0; top: .7em; width: 6px; height: 6px; border-radius: 50%; background: var(--orange); }
+  .prof__papers li { font-style: italic; }
+  .prof__links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+
+  .mgroup + .mgroup { margin-top: 48px; }
+  .mgroup__title { display: flex; justify-content: space-between; align-items: baseline; font-size: 20px; padding-bottom: 14px; border-bottom: 1.5px solid var(--ink); margin-bottom: 16px; }
+  .mgroup__title .mono { font-size: 12.5px; font-weight: 500; }
+  .mgrid { list-style: none; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+  .mcard { display: flex; gap: 16px; align-items: center; padding: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); transition: transform .3s var(--ease), box-shadow .3s; }
+  .mcard:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); }
+  .mcard__avatar { flex: none; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 20px; letter-spacing: -0.03em; color: #fff; background: var(--navy); }
+  .mcard__avatar.is-latin { font-size: 16px; letter-spacing: 0.02em; }
+  .mcard__avatar.r-researcher { background: var(--olive); }
+  .mcard__avatar.r-phd { background: var(--navy); }
+  .mcard__avatar.r-ms { background: var(--blue); }
+  .mcard__avatar.r-ug { background: #6f7c8a; }
+  .mcard__name { font-weight: 800; font-size: 18px; letter-spacing: -0.03em; }
+  .mcard__role { font-size: 13.5px; color: var(--ink-3); }
+  .mcard__int { font-size: 13px; color: var(--ink-2); margin-top: 4px; }
+
+  .careers { overflow: hidden; }
+</style>

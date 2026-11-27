@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { url } from '../lib/data';
+---
+<Base lang="en" title="Page not found">
+  <section class="nf blueprint">
+    <div class="container nf__grid">
+      <div>
+        <p class="eyebrow">404 · Not Found</p>
+        <h1 class="display" style="margin-top:20px">This page isn’t<br />on the blueprint.</h1>
+        <p class="lead" style="margin-top:24px">The address may have changed or the page was removed.</p>
+        <p class="lead nf__ko" lang="ko">찾으시는 페이지가 없습니다. 주소가 바뀌었거나 삭제된 페이지입니다.</p>
+        <div class="nf__links">
+          <a class="btn btn--primary" href={url('/')}>Home <Icon name="arrow" /></a>
+          <a class="btn btn--ghost" href={url('/ko/')} lang="ko">한국어 홈</a>
+          <a class="btn btn--ghost" href={url('/research')}>Research</a>
+          <a class="btn btn--ghost" href={url('/join')}>Join Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { min-height: calc(100vh - var(--header-h)); display: grid; align-items: center; padding-block: 64px; }
+  .nf__grid { display: grid; gap: 40px; align-items: center; }
+  .nf__ko { margin-top: 10px; font-size: 16px; }
+  .nf__links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+</style>
