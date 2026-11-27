@@ -4,12 +4,12 @@
 Astro 정적 사이트 + GitHub Pages로 **서버 없이, 운영비 0원**으로 돌아갑니다.
 
 - 콘텐츠 갱신(비개발자): [`docs/UPDATE_GUIDE.md`](docs/UPDATE_GUIDE.md)
-- 데이터: `src/data/*.yaml` (과제·발주기관·논문·구성원·교과목·분기 하이라이트)
+- 데이터: `src/data/*.yaml` (과제·발주기관·구성원·교과목·분기 하이라이트)
 - 기본 정보(연락처, 전체 과제 수 `projectsTotal` 등): `src/site.config.ts`
 
 ## 언어
 
-- **영어가 기본**입니다: `/`, `/about`, `/research`, `/publications`, `/people`, `/join`
+- **영어가 기본**입니다: `/`, `/about`, `/research`, `/people`, `/join`
 - 한국어: `/ko/`, `/ko/about` … — 헤더의 `EN | KO` 스위치로 전환
 - 방문자가 한국어를 한 번 고르면 브라우저에 기억해 두었다가 다음 방문 때 한국어 페이지로 안내합니다.
 - 두 언어는 `src/views/*.astro` 한 파일에서 함께 관리합니다 (`t('한국어', 'English')`).
@@ -29,7 +29,7 @@ Node 20 이상.
 
 ```
 src/
-├─ data/              # ← 분기마다 고치는 곳 (YAML 6개)
+├─ data/              # ← 분기마다 고치는 곳 (YAML 5개)
 ├─ content.config.ts  # 데이터 스키마 (형식 오류 시 빌드 실패)
 ├─ site.config.ts     # 연구실 기본 정보·연락처
 ├─ assets/
@@ -74,8 +74,7 @@ python scripts/build-single-html.py . ../CM_Lab_홈페이지.html   # Python 3 +
 - [ ] `src/site.config.ts` — `projectsTotal`(현재 50 → '50+' 표시)이 실제 수행 과제 수와 맞는지 확인
 - [ ] `src/data/projects.yaml` — 주요 사례 6건의 `summary`·`summary_en` 문구 교수 감수 (초안), 필요하면 나머지 과제 추가 (현재 27건)
 - [ ] `src/data/clients.yaml` — 발주기관 영문명·유형 분류 확인 (새 기관은 여기에 먼저 추가)
-- [ ] `src/data/publications.yaml` — 학술논문·학위논문 입력 (현재 비어 있어 '정리 중' 안내가 표시됨)
-- [ ] `src/data/people.yaml` — 영문 이름(`name_en`) 철자 본인 확인 (특히 유학생 진흔·소니아·퉤이), 관심 분야(`interests`/`interests_en`)
+- [ ] `src/data/people.yaml` — 영문 이름(`name_en`) 철자 본인 확인 (특히 유학생 진흔·로티에바바리마), 관심 분야(`interests`/`interests_en`)
 - [ ] `src/lib/careers.ts` — 진로 분야 문구 확인
 - [ ] 교수 사진 사용에 대한 교수 본인 최종 확인
 - [ ] GitHub Organization 생성 → 저장소 업로드 → Settings › Pages › Source: GitHub Actions

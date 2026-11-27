@@ -52,21 +52,6 @@
 - `type`: gov(정부부처) | public(공공기관) | research(연구기관·재단) | association(협회·단체) | society(학회) | industry(기업)
 - 영문명에 쉼표(,)가 있으면 따옴표로 감쌉니다: `name_en: "Ministry of Land, Infrastructure and Transport"`
 
-### ② `publications.yaml` — 논문 (매 분기)
-
-```yaml
-- id: 2027-kjcem-01
-  type: journal                   # journal | thesis-phd | thesis-ms
-  year: 2027
-  title: 논문 제목
-  authors: 홍길동, 김상범
-  venue: 한국건설관리학회논문집
-  doi: 10.0000/abcd               # (선택)
-```
-
-- 파일 맨 아래의 `[]` 는 "목록이 비어 있음"이라는 뜻입니다. **첫 논문을 넣을 때 `[]` 줄은 지우세요.**
-- 연구보고서는 projects.yaml 에서 자동으로 만들어지므로 여기에 넣지 않습니다.
-
 ### ③ `people.yaml` — 구성원 (3월·9월)
 
 - 신입생: `- { id: hong-gildong, name: 홍길동, name_en: Gildong Hong, role: ms }`

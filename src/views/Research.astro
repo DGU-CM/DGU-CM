@@ -130,7 +130,7 @@ const featuredIds = new Set(featured.map((p) => p.id));
           )}
         </p>
       </div>
-      <ClientNetwork lang={lang} counts={false} />
+      <ClientNetwork lang={lang} />
       {repeat.length > 0 && (
         <div class="repeat reveal">
           <p class="repeat__title"><Icon name="check" size={18} />{t('다시 찾은 기관', 'Clients who came back')}</p>

@@ -16,7 +16,6 @@ const ko = lang === 'ko';
     <li class="cmap__card reveal" style={`--d:${i * 0.05}s`}>
       <div class="cmap__top">
         <span class="cmap__icon"><Icon name={c.icon} size={22} /></span>
-        <span class="cmap__no mono">{String(i + 1).padStart(2, '0')}</span>
       </div>
       <h3 class="cmap__title">{ko ? c.ko : c.en}</h3>
       <p class="cmap__role">{ko ? c.roleKo : c.roleEn}</p>

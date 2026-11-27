@@ -10,8 +10,8 @@ SITE = pathlib.Path(sys.argv[1])
 OUT = pathlib.Path(sys.argv[2])
 DIST = SITE / 'dist'
 
-PAGES = ['/', '/about', '/research', '/publications', '/people', '/join',
-         '/ko/', '/ko/about', '/ko/research', '/ko/publications', '/ko/people', '/ko/join']
+PAGES = ['/', '/about', '/research', '/people', '/join',
+         '/ko/', '/ko/about', '/ko/research', '/ko/people', '/ko/join']
 
 def page_file(path):
     rel = path.strip('/')

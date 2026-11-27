@@ -61,9 +61,7 @@ const i = ko ? 0 : 1;
           'We have carried out applied research on project management and construction IT with ministries, public agencies, associations, societies and industry — and work with universities and institutes on high-value, technology-driven construction.',
         )}</p>
         <dl class="intro__facts">
-          <div><dt>{t('연구 분야', 'Areas')}</dt><dd class="mono">{stats.areas}</dd></div>
           <div><dt>{t('수행 과제', 'Projects')}</dt><dd class="mono">{stats.projectsTotal}+</dd></div>
-          <div><dt>{t('주요 발주기관', 'Clients')}</dt><dd class="mono">{stats.clients}+</dd></div>
         </dl>
       </div>
     </div>
@@ -74,12 +72,11 @@ const i = ko ? 0 : 1;
     <div class="container">
       <div class="section-head">
         <p class="eyebrow">Mission</p>
-        <h2 class="h2" style="color:#fff">{t('연구실이 하는 세 가지 일', 'Three things we do')}</h2>
+        <h2 class="h2" style="color:#fff">{t('연구실이 하는 일', 'What we do')}</h2>
       </div>
       <ol class="pillars__list">
         {pillars.map((p, n) => (
           <li class="pillar reveal" style={`--d:${n * 0.1}s`}>
-            <span class="pillar__k mono">{p.k}</span>
             <h3 class="h3">{p.t[i]}</h3>
             {ko && <p class="pillar__en mono">{p.en}</p>}
             <p class="pillar__d">{p.d[i]}</p>

@@ -32,7 +32,7 @@ const profName = prof ? personName(prof, lang) : '';
     eyebrow="People"
     title="People"
     sub={t('제도와 현장을 함께 고민하는 사람들', 'The people behind the research')}
-    lead={t(`지도교수와 ${members.length}명의 소속 연구원이 국가 과제와 산업 연구를 함께 수행합니다.`, `A professor and ${members.length} lab members working together on national projects and industry research.`)}
+    lead={t('지도교수와 소속 연구원이 국가 과제와 산업 연구를 함께 수행합니다.', 'A professor and lab members working together on national projects and industry research.')}
   />
 
   <!-- PROFESSOR -->
@@ -112,7 +112,7 @@ const profName = prof ? personName(prof, lang) : '';
       </div>
       {roles.map((role) => (
         <div class="mgroup">
-          <h3 class="mgroup__title"><span>{ko ? ROLE_LABEL[role].ko : ROLE_LABEL[role].en}</span><span class="mono muted">{ko ? `${ROLE_LABEL[role].en} · ` : ''}{members.filter((m) => m.role === role).length}</span></h3>
+          <h3 class="mgroup__title"><span>{ko ? ROLE_LABEL[role].ko : ROLE_LABEL[role].en}</span>{ko && <span class="mono muted">{ROLE_LABEL[role].en}</span>}</h3>
           <ul class="mgrid">
             {members.filter((m) => m.role === role).map((m, i) => (
               <li class="mcard reveal" style={`--d:${i * 0.05}s`}>

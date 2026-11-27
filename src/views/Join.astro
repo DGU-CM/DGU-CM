@@ -22,8 +22,8 @@ const tracks = (Object.keys(TRACKS) as (keyof typeof TRACKS)[]).map((k) => ({ ke
 
 const why = [
   { n: `${stats.projectsTotal}+`, t: ['국가·산업 과제 경험', 'Real national projects'], d: ['정부부처·공공기관·협회 과제에 직접 참여하며 연구 역량과 실무 감각을 함께 기릅니다.', 'Work directly on projects for ministries, public agencies and associations — building research skills and industry sense together.'] },
-  { n: `${stats.clients}+`, t: ['업계 네트워크', 'Industry network'], d: ['과제로 만나는 발주기관과 업계 전문가가 졸업 후의 네트워크가 됩니다.', 'The clients and experts you meet through projects become your network after graduation.'] },
-  { n: `${CAREER_PATHS.length}`, t: ['넓은 진로', 'Wide career options'], d: ['CM·엔지니어링, 건설사, 공공기관, 금융·컨설팅, 해외건설까지 — 건설관리 역량은 다양한 분야로 이어집니다.', 'CM and engineering, contractors, the public sector, finance, consulting and global construction — CM skills open many doors.'] },
+  { icon: 'users', t: ['업계 네트워크', 'Industry network'], d: ['과제로 만나는 발주기관과 업계 전문가가 졸업 후의 네트워크가 됩니다.', 'The clients and experts you meet through projects become your network after graduation.'] },
+  { icon: 'compass', t: ['넓은 진로', 'Wide career options'], d: ['CM·엔지니어링, 건설사, 공공기관, 금융·컨설팅, 해외건설까지 — 건설관리 역량은 다양한 분야로 이어집니다.', 'CM and engineering, contractors, the public sector, finance, consulting and global construction — CM skills open many doors.'] },
 ];
 const looking = [
   { t: ['건설산업의 ‘규칙’이 궁금한 사람', 'Curious about the rules of construction'], d: ['입낙찰·발주제도, 공사비, 업역 체계처럼 산업을 움직이는 제도에 관심이 있다면 연구 주제가 넘쳐납니다.', 'If procurement, cost standards and industry structure interest you, there is no shortage of research questions.'] },
@@ -31,13 +31,13 @@ const looking = [
   { t: ['실무와 연구를 잇고 싶은 사람', 'Bridging practice and research'], d: ['현장·발주처·엔지니어링사에서의 경험은 좋은 연구 질문의 출발점이 됩니다. 실무 경력자도 환영합니다.', 'Experience at sites, owners or engineering firms is a great starting point for research. Working professionals are welcome.'] },
 ];
 const steps = [
-  { n: '01', t: ['문의·면담', 'Contact & meet'], d: ['관심 분야와 진로 계획을 편하게 이야기하는 자리입니다. 연구실을 직접 방문해도 좋습니다.', 'An informal talk about your interests and plans. You are welcome to visit the lab.'] },
-  { n: '02', t: ['대학원 입학 지원', 'Apply to the graduate school'], d: ['동국대학교 일반대학원 건설환경공학과 모집 일정에 맞춰 지원합니다. 일정은 대학원 모집요강을 확인하세요.', 'Apply to the Dept. of Civil & Environmental Engineering, Dongguk University Graduate School, following its admission schedule.'] },
-  { n: '03', t: ['연구실 합류', 'Join the lab'], d: ['전공 교과목을 이수하며 연구 과제에 참여하고, 관심 분야를 학위논문 주제로 발전시킵니다.', 'Take core courses, join research projects and grow your interests into a thesis topic.'] },
+  { icon: 'mail', t: ['문의·면담', 'Contact & meet'], d: ['관심 분야와 진로 계획을 편하게 이야기하는 자리입니다. 연구실을 직접 방문해도 좋습니다.', 'An informal talk about your interests and plans. You are welcome to visit the lab.'] },
+  { icon: 'doc', t: ['대학원 입학 지원', 'Apply to the graduate school'], d: ['동국대학교 일반대학원 건설환경공학과 모집 일정에 맞춰 지원합니다. 일정은 대학원 모집요강을 확인하세요.', 'Apply to the Dept. of Civil & Environmental Engineering, Dongguk University Graduate School, following its admission schedule.'] },
+  { icon: 'flag', t: ['연구실 합류', 'Join the lab'], d: ['전공 교과목을 이수하며 연구 과제에 참여하고, 관심 분야를 학위논문 주제로 발전시킵니다.', 'Take core courses, join research projects and grow your interests into a thesis topic.'] },
 ];
 const faqs = [
   { q: ['건설·토목 전공이 아니어도 지원할 수 있나요?', 'Can I apply without a civil engineering background?'], a: ['가능합니다. 건설관리는 경영·경제·데이터·정책이 만나는 융합 분야입니다. 입학 후 전공 교과목으로 기초를 함께 다집니다.', 'Yes. Construction management sits where business, economics, data and policy meet. Core courses build the foundations after you join.'] },
-  { q: ['어떤 연구 주제를 선택할 수 있나요?', 'What research topics can I choose?'], a: ['정책·제도, 공사비·사업관리, 스마트건설, 글로벌 건설시장 네 분야 안에서 본인의 관심과 진행 중인 과제를 고려해 지도교수와 함께 정합니다.', 'Within policy, cost & project management, smart construction and global markets — decided with the professor based on your interests and ongoing projects.'] },
+  { q: ['어떤 연구 주제를 선택할 수 있나요?', 'What research topics can I choose?'], a: ['정책·제도, 공사비·사업관리, 스마트건설, 글로벌 건설시장 분야 안에서 본인의 관심과 진행 중인 과제를 고려해 지도교수와 함께 정합니다.', 'Within policy, cost & project management, smart construction and global markets — decided with the professor based on your interests and ongoing projects.'] },
   { q: ['연구 과제에 참여하나요?', 'Will I work on research projects?'], a: ['네. 정부·공공기관 과제에 참여하며 연구 역량과 실무 감각을 함께 기릅니다. 참여 방식과 지원 사항은 면담에서 자세히 안내합니다.', 'Yes. You will work on government and public-agency projects. Details on participation and support are explained in the interview.'] },
   { q: ['졸업 후 어떤 분야로 진출할 수 있나요?', 'Where can a CM degree take me?'], a: ['건설관리 전공자는 CM·엔지니어링사, 건설사·디벨로퍼, 공공기관, 국책연구기관, 금융·컨설팅, 해외건설 등으로 진출할 수 있습니다. People 페이지의 진로 지도를 확인하세요.', 'CM graduates can go to CM and engineering firms, contractors and developers, public agencies, research institutes, finance and consulting, and global construction — see the career map on the People page.'] },
   { q: ['유학생도 지원할 수 있나요?', 'Can international students apply?'], a: ['환영합니다. 현재도 해외 출신 연구원이 함께하고 있으며, 면담에서 학업과 연구 과정을 자세히 안내받을 수 있습니다.', 'Absolutely. International researchers are already part of the team, and we will walk you through study and research in the interview.'] },
@@ -71,7 +71,7 @@ const mapUrl = ko ? `https://map.naver.com/p/search/${encodeURIComponent('동국
       <ul class="why__grid">
         {why.map((w, n) => (
           <li class="reveal" style={`--d:${n * 0.08}s`}>
-            <b class="mono">{n === 0 ? <span>{w.n}</span> : w.n}</b>
+            {w.n ? <b class="mono">{w.n}</b> : <span class="why__icon"><Icon name={w.icon!} size={34} /></span>}
             <h3>{w.t[i]}</h3>
             <p>{w.d[i]}</p>
           </li>
@@ -112,7 +112,7 @@ const mapUrl = ko ? `https://map.naver.com/p/search/${encodeURIComponent('동국
       <ol class="steps">
         {steps.map((s, n) => (
           <li class="step reveal" style={`--d:${n * 0.1}s`}>
-            <span class="step__n mono">{s.n}</span>
+            <span class="step__n"><Icon name={s.icon} size={20} /></span>
             <h3 class="h3">{s.t[i]}</h3>
             <p>{s.d[i]}</p>
           </li>
@@ -129,7 +129,7 @@ const mapUrl = ko ? `https://map.naver.com/p/search/${encodeURIComponent('동국
           <p class="eyebrow">Curriculum</p>
           <h2 class="h2" style="margin-top:16px">{t('건설관리 및 경영 전공 교과목', 'Construction management curriculum')}</h2>
         </div>
-        <p class="lead">{t('관리기술, 경영·전략, 데이터·디지털 세 축의 교과목으로 건설관리 전문가의 기초를 다집니다.', 'Three tracks — project control, business & strategy, and data & digital — build the foundations of a CM professional.')}</p>
+        <p class="lead">{t('관리기술, 경영·전략, 데이터·디지털 축의 교과목으로 건설관리 전문가의 기초를 다집니다.', 'Courses in project control, business & strategy, and data & digital build the foundations of a CM professional.')}</p>
       </div>
       <div class="tracks">
         {tracks.map((tr, n) => (
@@ -212,6 +212,7 @@ const mapUrl = ko ? `https://map.naver.com/p/search/${encodeURIComponent('동국
   .why { overflow: hidden; }
   .why__grid { list-style: none; display: grid; gap: 1px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.14); border-radius: var(--radius); overflow: hidden; }
   .why__grid li { background: var(--navy); padding: clamp(26px, 3vw, 40px); }
+  .why__icon { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 18px; background: rgba(255,255,255,.08); color: #f4a06c; }
   .why__grid b { display: block; font-size: clamp(44px, 5vw, 64px); color: #fff; font-weight: 600; letter-spacing: -0.05em; line-height: 1; }
   .why__grid h3 { color: #fff; font-size: 20px; margin-top: 18px; letter-spacing: -0.02em; }
   .why__grid p { color: #c3cfdb; margin-top: 10px; line-height: 1.7; font-size: 15px; }
