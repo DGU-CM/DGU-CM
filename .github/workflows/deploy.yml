@@ -1,0 +1,55 @@
+# 홈페이지 자동 배포 (GitHub Pages, 무료)
+#  · main 브랜치에 변경이 저장(commit)되면 자동으로 빌드·배포합니다.
+#  · 매월 1일에도 한 번 다시 빌드해서 푸터 연도·분기 하이라이트 만료를 자동 정리합니다.
+#  · 데이터 형식이 틀리면 빌드가 실패하고, 사이트는 직전 버전 그대로 유지됩니다.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 0 1 * *' # 매월 1일 09:00 (KST)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  # ── 주소 설정 ─────────────────────────────────────────────
+  # 커스텀 도메인(학과 서브도메인 등) 사용 시: SITE_URL=https://도메인 , BASE_PATH=/
+  # github.io 주소 사용 시: SITE_URL=https://<조직>.github.io , BASE_PATH=/<저장소이름>
+  SITE_URL: https://dgu-cm.github.io
+  BASE_PATH: /DGU-CM
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # '최종 업데이트' 분기 계산에 git 기록이 필요합니다
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
