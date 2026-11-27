@@ -8,7 +8,7 @@
 #  · end    : 종료 연도. 진행 중이면 이 줄을 지우거나 비워 두세요.
 #  · image  : (선택) src/assets/photos/ 폴더에 넣은 사진 파일명
 #  · client : clients.yaml 에 등록된 기관명과 똑같이 적습니다 (없으면 clients.yaml 에 먼저 추가)
-#  · featured: true 이면 '주요 사례' 카드로 표시 (6건 내외 권장, summary 필수)
+#  · featured: true 이면 '주요 사례' 카드로 표시 (6~7건 권장, summary 필수)
 #      summary / summary_en : problem·approach·outcome (국문 / 영문)
 #      related : 함께 보여 줄 연관·후속 과제 id 목록
 #      order   : 주요 사례 표시 순서 (작을수록 앞)
@@ -53,9 +53,9 @@
   area: policy
 
 - id: 2009-daewoo-consulting
-  title: 대우건설 컨설팅 용역
-  title_en: Management Consulting for Daewoo E&C
-  client: 대우건설
+  title: 종합건설사 경영 컨설팅 용역
+  title_en: Management Consulting for a General Contractor
+  client: 종합건설사
   start: 2009
   end: 2009
   area: cost-pm
@@ -84,7 +84,7 @@
   end: 2012
   area: global
   featured: true
-  order: 6
+  order: 7
   image: feat-global.jpg
   related: [2012-overseas-rnd-roadmap, 2009-green-energy-strategy]
   summary:
@@ -136,7 +136,7 @@
   end: 2015
   area: cost-pm
   featured: true
-  order: 3
+  order: 4
   image: feat-usfk.jpg
   related: [2013-usfk-relocation-efficiency]
   summary:
@@ -172,7 +172,7 @@
   end: 2017
   area: policy
   featured: true
-  order: 2
+  order: 3
   image: feat-procurement.jpg
   related: [2018-best-value-guideline]
   summary:
@@ -200,7 +200,7 @@
   end: 2018
   area: cost-pm
   featured: true
-  order: 4
+  order: 5
   image: feat-cost.jpg
   related: [2015-actual-cost-abolition, 2016-cost-adequacy-policy]
   summary:
@@ -260,7 +260,7 @@
   end: 2020
   area: policy
   featured: true
-  order: 5
+  order: 6
   image: feat-workforce.jpg
   related: [2014-engineer-growth-strategy]
   summary:
@@ -285,8 +285,20 @@
   title_en: Improving the Construction Quality Management Framework
   client: 국토교통부
   start: 2025
-  end: 2025
+  end: 2026
   area: policy
+  featured: true
+  order: 2
+  image: feat-quality.jpg
+  related: [2015-construction-promotion-act]
+  summary:
+    problem: 건설기술진흥법에 품질관리 제도가 갖춰져 있지만, 현장에서는 품질관리 부실에 따른 사고와 하자가 반복되며 제도와 현장 이행 사이의 간극이 드러났습니다.
+    approach: 토목·건축 실무자 심층 인터뷰와 국토교통부 민원 분석, 해외 6개국 제도 비교로 원인을 진단하고, 국토안전관리원·민관협의체 검토를 거쳐 개선안을 다듬었습니다.
+    outcome: 품질관리계획 수립 기준 현실화, 변경관리 등급제, 공종별 품질관리비 요율 모델, 품질관리 인력 단가 정비 등을 법령 개정안으로 제시했습니다.
+  summary_en:
+    problem: Korea's Construction Technology Promotion Act sets out quality management rules, yet defects and accidents caused by poor quality control keep recurring — a gap between the rules and what happens on site.
+    approach: Diagnosed the causes through in-depth interviews with civil and building practitioners, analysis of public complaints filed with MOLIT and a review of six countries' systems, then refined the proposals with the national infrastructure safety authority and a public–private council.
+    outcome: Proposed legal amendments covering realistic thresholds for quality plans, a tiered change-management process, a quality-cost rate model by work type and clearer labor rates for quality staff.
 
 - id: 2026-multipurpose-robot
   title: 공동주택 건설생산성 혁신을 위한 다용도 건설작업로봇 설계 및 통합관리 기술

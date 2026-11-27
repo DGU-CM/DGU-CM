@@ -7,9 +7,16 @@ import Icon from './Icon.astro';
 import { getClientGroups } from '../lib/data';
 import type { Lang } from '../lib/i18n';
 
-interface Props { lang: Lang }
-const { lang } = Astro.props;
+interface Props { lang: Lang; counts?: boolean }
+const { lang, counts = true } = Astro.props;
 const groups = await getClientGroups();
+// 기업은 개별 회사명 대신 회사 유형으로 보여 줍니다
+const INDUSTRY_KINDS = [
+  { ko: '종합건설사(시공사)', en: 'General contractors' },
+  { ko: '건설엔지니어링사', en: 'Engineering firms' },
+  { ko: '건설사업관리(CM)사', en: 'CM firms' },
+  { ko: '디벨로퍼·건설 관련 기업', en: 'Developers & construction businesses' },
+];
 const ICON: Record<string, string> = { gov: 'gov', public: 'building', research: 'scholar', association: 'users', society: 'book', industry: 'crane' };
 ---
 <ul class="cnet">
@@ -17,18 +24,18 @@ const ICON: Record<string, string> = { gov: 'gov', public: 'building', research:
     <li class="cnet__col reveal" style={`--d:${i * 0.06}s`}>
       <div class="cnet__head">
         <span class="cnet__icon"><Icon name={ICON[g.type]} size={20} /></span>
-        <span class="cnet__n mono">
-          {g.list.length}
-        </span>
+        {counts && g.type !== 'industry' && <span class="cnet__n mono">{g.list.length}</span>}
       </div>
       <h3 class="cnet__type">{lang === 'ko' ? g.ko : g.en}</h3>
       <ul class="cnet__list">
-        {g.list.map((c) => (
-          <li>
-            {lang === 'ko' ? c.id : c.name_en}
-            {lang === 'en' && c.short_en && <span class="mono"> {c.short_en}</span>}
-          </li>
-        ))}
+        {g.type === 'industry'
+          ? INDUSTRY_KINDS.map((k) => <li>{lang === 'ko' ? k.ko : k.en}</li>)
+          : g.list.map((c) => (
+              <li>
+                {lang === 'ko' ? c.id : c.name_en}
+                {lang === 'en' && c.short_en && <span class="mono"> {c.short_en}</span>}
+              </li>
+            ))}
       </ul>
     </li>
   ))}

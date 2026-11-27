@@ -54,8 +54,8 @@ const profName = prof ? personName(prof, lang) : '';
           <p class="prof__title">{ko ? `${SITE.university} ${prof.title}` : `${prof.title_en}, ${SITE.universityEn}`}</p>
           <p class="prof__pitch">
             {t(
-              `University of Texas at Austin에서 건설공학·프로젝트관리(CEPM)로 석·박사 학위를 받았습니다. ${stats.firstYear}년부터 ${stats.projectsTotal}여 건의 정부·공공·산업 연구를 이끌며 국가 발주제도 개편, 국방 메가프로그램 건설사업관리, 건설로봇 R&D까지 제도와 현장을 잇는 연구를 해 왔습니다.`,
-              `M.S. and Ph.D. in Construction Engineering and Project Management from The University of Texas at Austin. Since ${stats.firstYear} he has led ${stats.projectsTotal}+ government, public and industry research projects, from national procurement reform and defense mega-program management to construction robotics R&D.`,
+              `University of Texas at Austin에서 건설공학·프로젝트관리(CEPM)로 석·박사 학위를 받았습니다. ${stats.projectsTotal}여 건의 정부·공공·산업 연구를 이끌며 국가 발주제도 개편, 국방 메가프로그램 건설사업관리, 건설로봇 R&D까지 제도와 현장을 잇는 연구를 해 왔습니다.`,
+              `M.S. and Ph.D. in Construction Engineering and Project Management from The University of Texas at Austin. He has led ${stats.projectsTotal}+ government, public and industry research projects, from national procurement reform and defense mega-program management to construction robotics R&D.`,
             )}
           </p>
           {(ko ? prof.interests : prof.interests_en ?? prof.interests) && (

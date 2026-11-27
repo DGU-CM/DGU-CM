@@ -13,9 +13,9 @@ export const SITE = {
   slogan: ['건설산업의 규칙을 설계하고,', '현장의 미래를 관리합니다.'],
   sloganEn: 'Designing the Rules, Managing the Future of Construction',
   description:
-    '동국대학교 건설환경공학과 건설관리 및 경영 연구실(CM Lab). 2006년부터 정부·공공기관·협회·학회와 50여 건의 연구를 수행하며 건설산업 정책·제도, 공사비·사업관리, 스마트건설을 연구합니다.',
+    '동국대학교 건설환경공학과 건설관리 및 경영 연구실(CM Lab). 정부·공공기관·협회·학회와 50여 건의 연구를 수행하며 건설산업 정책·제도, 공사비·사업관리, 스마트건설을 연구합니다.',
   descriptionEn:
-    'Construction Management Lab (DGU CM Lab), Dongguk University — 50+ research projects since 2006 with government ministries, public agencies, industry associations and academic societies, on construction policy, cost & project management and smart construction.',
+    'Construction Management Lab (DGU CM Lab), Dongguk University — 50+ research projects with government ministries, public agencies, industry associations and academic societies, on construction policy, cost & project management and smart construction.',
   foundedYear: 2006,
 
   /** 전체 수행 과제 수 (홈·연구 페이지에 '50+'로 표시). projects.yaml 에는 주요 과제만 넣어도 됩니다. */

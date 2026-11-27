@@ -5,7 +5,6 @@ import { SITE } from '../site.config';
 export type Project = CollectionEntry<'projects'>['data'];
 export type Person = CollectionEntry<'people'>['data'];
 export type Course = CollectionEntry<'courses'>['data'];
-export type Publication = CollectionEntry<'publications'>['data'];
 export type Update = CollectionEntry<'updates'>['data'];
 export type Client = CollectionEntry<'clients'>['data'];
 export type Lang = 'en' | 'ko';
@@ -139,10 +138,6 @@ export async function clientNamer() {
   const clients = await getClients();
   const map = new Map(clients.map((c) => [c.id, c]));
   return (name: string, lang: Lang) => (lang === 'ko' ? name : map.get(name)?.name_en ?? name);
-}
-
-export async function getPublications() {
-  return data(await getCollection('publications')).sort((a, b) => b.year - a.year);
 }
 
 export const isOngoing = (p: Project) => p.end == null;

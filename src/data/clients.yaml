@@ -29,5 +29,6 @@
 - { id: 건설산업비전포럼, name_en: Construction Industry Vision Forum, type: association }
 
 - { id: 대한토목학회, name_en: Korean Society of Civil Engineers, short_en: KSCE, type: society }
+- { id: 한국건설관리학회, name_en: Korea Institute of Construction Engineering and Management, short_en: KICEM, type: society }
 
-- { id: 대우건설, name_en: Daewoo E&C, type: industry }
+- { id: 종합건설사, name_en: General contractor, type: industry }

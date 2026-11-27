@@ -19,7 +19,6 @@ const prof = people.find((p) => p.role === 'prof');
 
 // 주요 연혁 — 연 1회 점검 (큰 이정표만 5~8개)
 const milestones = [
-  { y: '2006', t: ['연구실 첫 과제', 'First research project'], d: ['도로구조물 공사비 산정모델 및 기준 개발 (건설교통기술평가원)', 'Cost estimation model and standards for road structures (KICTEP)'] },
   { y: '2007', t: ['메가프로젝트 건설관리', 'Mega-project management'], d: ['LH 공사 메가프로젝트 건설관리 시스템 개발', 'Construction management system for mega-projects (LH)'] },
   { y: '2008', t: ['국가 산업정책 연구', 'National industry policy'], d: ['국토교통부 건설 업종·업역 체계 개편 방안 연구', 'Restructuring construction business categories for MOLIT'] },
   { y: '2013', t: ['국방 메가프로그램', 'Defense mega-program'], d: ['주한미군기지이전사업 건설관리 효율화 연구, 2015년 CM 컨설팅으로 확대 (국방부)', 'USFK base relocation — management study, expanded to CM consulting in 2015 (Ministry of National Defense)'] },
@@ -36,7 +35,7 @@ const pillars = [
 ];
 const i = ko ? 0 : 1;
 ---
-<Base lang={lang} path="/about" title="About" description={t('DGU CM Lab 연구실 소개 — 미션, 20년의 이정표, 지도교수, 오시는 길', 'About DGU CM Lab — mission, 20 years of milestones, professor and location')}>
+<Base lang={lang} path="/about" title="About" description={t('DGU CM Lab 연구실 소개 — 미션, 주요 이정표, 지도교수, 오시는 길', 'About DGU CM Lab — mission, milestones, professor and location')}>
   <PageHero eyebrow="About" title="About" sub={t('건설산업의 규칙을 설계하고,<br />현장의 미래를 관리합니다', 'Designing the rules,<br />managing the future of construction')}>
   </PageHero>
 
@@ -62,7 +61,7 @@ const i = ko ? 0 : 1;
           'We have carried out applied research on project management and construction IT with ministries, public agencies, associations, societies and industry — and work with universities and institutes on high-value, technology-driven construction.',
         )}</p>
         <dl class="intro__facts">
-          <div><dt>{t('연구 시작', 'Since')}</dt><dd class="mono">{stats.firstYear}</dd></div>
+          <div><dt>{t('연구 분야', 'Areas')}</dt><dd class="mono">{stats.areas}</dd></div>
           <div><dt>{t('수행 과제', 'Projects')}</dt><dd class="mono">{stats.projectsTotal}+</dd></div>
           <div><dt>{t('주요 발주기관', 'Clients')}</dt><dd class="mono">{stats.clients}+</dd></div>
         </dl>
@@ -95,7 +94,7 @@ const i = ko ? 0 : 1;
     <div class="container ms__grid">
       <div class="ms__head">
         <p class="eyebrow">Milestones</p>
-        <h2 class="h2" style="margin-top:16px">{t(`${stats.years}년의 이정표`, `${stats.years} years of milestones`)}</h2>
+        <h2 class="h2" style="margin-top:16px">{t('주요 이정표', 'Milestones')}</h2>
         <p class="lead" style="margin-top:20px">{t('제도 연구에서 시작해 사업관리, 스마트건설, 건설로봇까지. 연구실이 걸어온 길입니다.', 'From policy research to project management, smart construction and robotics — the path we have taken.')}</p>
         <a class="link-arrow" style="margin-top:28px" href={L('/research#cases')}>{t('주요 연구 사례 보기', 'See key cases')} <Icon name="arrow" /></a>
       </div>

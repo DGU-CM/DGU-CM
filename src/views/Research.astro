@@ -22,19 +22,19 @@ const title = (p: (typeof projects)[number]) => (ko ? p.title : p.title_en ?? p.
 const repeat = countBy(projects, (p) => p.client).filter(([, n]) => n >= 2);
 const featuredIds = new Set(featured.map((p) => p.id));
 ---
-<Base lang={lang} path="/research" title="Research" description={t(`2006년부터 ${stats.projectsTotal}여 건 — 정부부처·공공기관·협회·학회와 수행한 DGU CM Lab의 주요 연구 사례와 연구 분야`, `${stats.projectsTotal}+ projects since 2006 with ministries, public agencies, associations and societies — key cases and research areas of DGU CM Lab.`)}>
+<Base lang={lang} path="/research" title="Research" description={t(`${stats.projectsTotal}여 건 — 정부부처·공공기관·협회·학회와 수행한 DGU CM Lab의 주요 연구 사례와 연구 분야`, `${stats.projectsTotal}+ projects with ministries, public agencies, associations and societies — key cases and research areas of DGU CM Lab.`)}>
   <PageHero
     eyebrow="Research"
     title="Research"
     sub={t('제도와 현장 사이에서,<br />건설산업의 다음 규칙을 찾습니다', 'Between policy and practice,<br />we find the next rules of construction')}
     lead={t(
-      `${stats.firstYear}년 첫 과제 이후 ${stats.projectsTotal}여 건의 연구를 수행했습니다. 정부부처와 공공기관의 정책 연구부터 협회·학회의 산업 연구, 국가 R&D까지 — 그중 대표 사례를 소개합니다.`,
-      `${stats.projectsTotal}+ research projects since our first in ${stats.firstYear} — from policy studies for ministries and public agencies to industry research for associations and societies, and national R&D. Here are the highlights.`,
+      `${stats.projectsTotal}여 건의 연구를 수행했습니다. 정부부처와 공공기관의 정책 연구부터 협회·학회의 산업 연구, 국가 R&D까지 — 그중 대표 사례를 소개합니다.`,
+      `${stats.projectsTotal}+ research projects — from policy studies for ministries and public agencies to industry research for associations and societies, and national R&D. Here are the highlights.`,
     )}
   >
     <nav class="area-jump" aria-label={t('페이지 바로가기', 'Jump to')}>
-      <a href="#cases" class="chip"><Icon name="flag" size={14} />{t('주요 사례', 'Key cases')} <span class="mono">{featured.length}</span></a>
-      <a href="#clients" class="chip"><Icon name="gov" size={14} />{t('발주·협력 기관', 'Clients')} <span class="mono">{stats.clients}</span></a>
+      <a href="#cases" class="chip"><Icon name="flag" size={14} />{t('주요 사례', 'Key cases')}</a>
+      <a href="#clients" class="chip"><Icon name="gov" size={14} />{t('발주·협력 기관', 'Clients')}</a>
       {AREA_ORDER.map((k) => (
         <a href={`#area-${k}`} class="chip" style={`--c:${AREAS[k].color}`}><i class="dot"></i>{ko ? AREAS[k].ko : AREAS[k].en}</a>
       ))}
@@ -43,29 +43,17 @@ const featuredIds = new Set(featured.map((p) => p.id));
 
   <!-- BY THE NUMBERS -->
   <section class="section section--navy blueprint numbers">
-    <div class="container">
-      <ul class="numbers__grid">
-        <li class="reveal">
-          <b class="mono"><span>{stats.projectsTotal}+</span></b>
-          <h2>{t('수행 과제', 'Research projects')}</h2>
-          <p>{t(`${stats.firstYear}년부터 ${stats.years}년간 쉬지 않고 이어 온 연구`, `${stats.years} years of continuous research since ${stats.firstYear}`)}</p>
-        </li>
-        <li class="reveal" style="--d:.08s">
-          <b class="mono">{groups.length}</b>
-          <h2>{t('유형의 발주기관', 'Types of clients')}</h2>
-          <p>{t('정부부처 · 공공기관 · 연구기관 · 협회 · 학회 · 기업', 'Ministries · Agencies · Institutes · Associations · Societies · Industry')}</p>
-        </li>
-        <li class="reveal" style="--d:.16s">
-          <b class="mono">{repeat.length}</b>
-          <h2>{t('곳이 다시 찾은 연구실', 'Repeat clients')}</h2>
-          <p>{t(`국토교통부 ${repeat.find(([c]) => c === '국토교통부')?.[1] ?? 0}건 등, 한 번 맡긴 기관이 다시 의뢰합니다`, `Incl. ${repeat.find(([c]) => c === '국토교통부')?.[1] ?? 0} projects for MOLIT — clients come back`)}</p>
-        </li>
-        <li class="reveal" style="--d:.24s">
-          <b class="mono">{AREA_ORDER.length}</b>
-          <h2>{t('개 연구 분야', 'Research areas')}</h2>
-          <p>{t('정책·제도 · 공사비·사업관리 · 스마트건설 · 글로벌', 'Policy · Cost & PM · Smart construction · Global')}</p>
-        </li>
-      </ul>
+    <div class="container numbers__inner">
+      <div class="numbers__big reveal">
+        <b class="mono">{stats.projectsTotal}+</b>
+        <h2>{t('수행 연구 과제', 'Research projects')}</h2>
+      </div>
+      <div class="numbers__text reveal" style="--d:.08s">
+        <p class="numbers__lead">{t('정책을 만드는 정부부처부터 사업을 발주하는 공공기관, 산업을 대표하는 협회·학회, 현장의 기업까지 — 건설산업의 거의 모든 주체와 함께 연구해 왔습니다.', 'From the ministries that make policy and the agencies that procure projects to the associations, societies and companies that build — we have worked with almost every player in Korean construction.')}</p>
+        <ul class="numbers__tags">
+          {groups.map((g) => <li>{ko ? g.ko : g.en}</li>)}
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -89,7 +77,6 @@ const featuredIds = new Set(featured.map((p) => p.id));
             <article class="fd reveal" id={`case-${p.id}`} style={`--c:${a.color}`}>
               <div class="fd__media">
                 {img && <Image src={img} alt="" widths={[560, 840, 1120]} sizes="(max-width: 900px) 100vw, 540px" />}
-                <span class="fd__no mono">CASE {String(i + 1).padStart(2, '0')}</span>
               </div>
               <div class="fd__body">
                 <div class="fd__meta">
@@ -143,13 +130,13 @@ const featuredIds = new Set(featured.map((p) => p.id));
           )}
         </p>
       </div>
-      <ClientNetwork lang={lang} />
+      <ClientNetwork lang={lang} counts={false} />
       {repeat.length > 0 && (
         <div class="repeat reveal">
           <p class="repeat__title"><Icon name="check" size={18} />{t('다시 찾은 기관', 'Clients who came back')}</p>
           <ul>
-            {repeat.map(([c, n]) => (
-              <li><span>{clientName(c, lang)}</span><b class="mono">×{n}</b></li>
+            {repeat.map(([c]) => (
+              <li><span>{clientName(c, lang)}</span></li>
             ))}
           </ul>
         </div>
@@ -162,7 +149,7 @@ const featuredIds = new Set(featured.map((p) => p.id));
     <div class="container">
       <div class="section-head">
         <p class="eyebrow">Research Areas</p>
-        <h2 class="h2">{t('네 개의 연구 분야', 'Four research areas')}</h2>
+        <h2 class="h2">{t('연구 분야', 'Research areas')}</h2>
       </div>
       {AREA_ORDER.map((k, i) => {
         const a = AREAS[k];
@@ -173,7 +160,6 @@ const featuredIds = new Set(featured.map((p) => p.id));
               <Image src={photoImg(a.illust)!} alt="" widths={[480, 720, 960]} sizes="(max-width: 900px) 100vw, 500px" quality={80} />
             </div>
             <div class="area-row__body reveal" style="--d:.1s">
-              <p class="area-row__no mono">0{i + 1} / 0{AREA_ORDER.length}</p>
               <h3 class="h2">{ko ? a.ko : a.en}</h3>
               {ko && <p class="area-row__en mono">{a.en}</p>}
               <p class="area-row__blurb">{ko ? a.blurb : a.blurbEn}</p>
@@ -204,7 +190,7 @@ const featuredIds = new Set(featured.map((p) => p.id));
       <p class="cta-band__text">{t('이런 연구에 직접 참여하고 싶다면?', 'Want to work on projects like these?')}</p>
       <div class="cta-band__btns">
         <a class="btn btn--primary" href={L('/join')}>{t('대학원 지원 안내', 'How to apply')} <Icon name="arrow" /></a>
-        <a class="btn btn--ghost" href={L('/publications')}>{t('연구 성과 보기', 'Publications')}</a>
+        <a class="btn btn--ghost" href={L('/people')}>{t('구성원 보기', 'Meet the team')}</a>
       </div>
     </div>
   </section>
@@ -216,11 +202,13 @@ const featuredIds = new Set(featured.map((p) => p.id));
   .area-jump .chip:hover { border-color: var(--ink); }
 
   .numbers { overflow: hidden; }
-  .numbers__grid { list-style: none; display: grid; gap: 1px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.14); border-radius: var(--radius); overflow: hidden; }
-  .numbers__grid li { background: var(--navy); padding: clamp(24px, 3vw, 40px); }
-  .numbers__grid b { display: block; font-size: clamp(48px, 6vw, 76px); font-weight: 600; color: #fff; letter-spacing: -0.05em; line-height: 1; }
-  .numbers__grid h2 { font-size: 18px; color: #fff; margin-top: 18px; letter-spacing: -0.02em; }
-  .numbers__grid p { margin-top: 8px; color: #b7c4d2; font-size: 14.5px; line-height: 1.6; }
+  .numbers__inner { display: grid; gap: 28px; align-items: center; }
+  @media (min-width: 900px) { .numbers__inner { grid-template-columns: auto 1fr; gap: clamp(48px, 7vw, 112px); } }
+  .numbers__big b { display: block; font-size: clamp(72px, 10vw, 132px); font-weight: 600; color: #fff; letter-spacing: -0.06em; line-height: .9; }
+  .numbers__big h2 { font-size: 20px; color: #f4a06c; margin-top: 14px; letter-spacing: -0.02em; }
+  .numbers__lead { color: #dfe7ef; font-size: clamp(17px, 1.6vw, 20px); line-height: 1.7; font-weight: 500; max-width: 640px; }
+  .numbers__tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .numbers__tags li { padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.24); color: #fff; font-size: 14px; font-weight: 600; }
 
   .cases { overflow: hidden; }
   .fd-list { display: grid; gap: 24px; }
@@ -229,7 +217,6 @@ const featuredIds = new Set(featured.map((p) => p.id));
   .fd__media { background: #efede6; min-height: 280px; position: relative; overflow: hidden; }
   .fd__media :global(img) { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
   @media (max-width: 899px) { .fd__media { min-height: 0; aspect-ratio: 3 / 2; } }
-  .fd__no { position: absolute; left: 16px; top: 16px; padding: 4px 10px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 12.5px; font-weight: 600; letter-spacing: .06em; }
   .fd__body { padding: clamp(24px, 3.4vw, 44px); display: grid; gap: 12px; align-content: start; }
   .fd__meta { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 12.5px; }
   .fd__client { display: flex; gap: 8px; align-items: center; font-weight: 700; color: var(--c); font-size: 15px; }

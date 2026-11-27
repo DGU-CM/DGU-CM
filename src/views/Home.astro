@@ -40,8 +40,8 @@ const assoc = groups.find((g) => g.type === 'association')?.list.length ?? 0;
         )}
         <p class="lead reveal" style="--d:.16s">
           {t(
-            `${stats.firstYear}년부터 정부부처·공공기관·협회·학회와 함께 ${stats.projectsTotal}여 건의 연구를 수행해 왔습니다. 건설산업의 제도와 사업관리, 스마트건설 연구로 실제 정책과 현장을 바꿉니다.`,
-            `Since ${stats.firstYear}, the Construction Management Lab at Dongguk University has delivered ${stats.projectsTotal}+ research projects for government ministries, public agencies, industry associations and academic societies — research that becomes real rules and real projects.`,
+            `정부부처·공공기관·협회·학회와 함께 ${stats.projectsTotal}여 건의 연구를 수행해 왔습니다. 건설산업의 제도와 사업관리, 스마트건설 연구로 실제 정책과 현장을 바꿉니다.`,
+            `The Construction Management Lab at Dongguk University has delivered ${stats.projectsTotal}+ research projects for government ministries, public agencies, industry associations and academic societies — research that becomes real rules and real projects.`,
           )}
         </p>
         <div class="hero__cta reveal" style="--d:.24s">
@@ -63,9 +63,9 @@ const assoc = groups.find((g) => g.type === 'association')?.list.length ?? 0;
     </div>
     <div class="container stats-wrap">
       <dl class="stats reveal" style="--d:.3s">
-        <div><dt>{t('연구 기간', 'Years of research')}</dt><dd><b class="mono">{stats.years}</b><span>{t('년+', '+ yrs')}</span></dd></div>
         <div><dt>{t('수행 과제', 'Research projects')}</dt><dd><b class="mono"><span>{stats.projectsTotal}+</span></b><span>{t('건', '')}</span></dd></div>
         <div><dt>{t('주요 발주·협력 기관', 'Clients & partners')}</dt><dd><b class="mono">{stats.clients}</b><span>{t('곳+', '+ orgs')}</span></dd></div>
+        <div><dt>{t('주요 연구 사례', 'Key cases')}</dt><dd><b class="mono">{featured.length}</b><span>{t('건', ' cases')}</span></dd></div>
         <div><dt>{t('연구 분야', 'Research areas')}</dt><dd><b class="mono">{stats.areas}</b><span>{t('개 분야', ' areas')}</span></dd></div>
       </dl>
     </div>
@@ -236,7 +236,7 @@ const assoc = groups.find((g) => g.type === 'association')?.list.length ?? 0;
       <ul class="join-cta__facts">
         <li><b class="mono">{stats.projectsTotal}+</b><span>{t('정부·공공·산업 연구 과제', 'Government, public & industry projects')}</span></li>
         <li><b class="mono">{stats.clients}+</b><span>{t('발주·협력 기관', 'Clients & partners')}</span></li>
-        <li><b class="mono">{stats.years}+</b><span>{t('년의 연구 이력', 'Years of research')}</span></li>
+        <li><b class="mono">{stats.areas}</b><span>{t('개 연구 분야', 'Research areas')}</span></li>
       </ul>
     </div>
   </section>

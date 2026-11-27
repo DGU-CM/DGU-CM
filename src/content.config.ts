@@ -80,20 +80,6 @@ const courses = defineCollection({
   }),
 });
 
-const publications = defineCollection({
-  loader: file('src/data/publications.yaml'),
-  schema: z.object({
-    id: z.string(),
-    type: z.enum(['journal', 'thesis-phd', 'thesis-ms']),
-    year,
-    title: z.string(),
-    authors: z.string(),
-    venue: z.string().optional(),
-    doi: z.string().optional(),
-    url: z.string().url().optional(),
-  }),
-});
-
 const updates = defineCollection({
   loader: file('src/data/updates.yaml'),
   schema: z.object({
@@ -104,4 +90,4 @@ const updates = defineCollection({
   }),
 });
 
-export const collections = { projects, people, clients, courses, publications, updates };
+export const collections = { projects, people, clients, courses, updates };
