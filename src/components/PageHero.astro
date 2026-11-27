@@ -1,0 +1,12 @@
+---
+interface Props { eyebrow: string; title: string; sub?: string; lead?: string }
+const { eyebrow, title, sub, lead } = Astro.props;
+---
+<section class="page-hero blueprint">
+  <div class="container page-hero__inner">
+    <p class="eyebrow reveal">{eyebrow}</p>
+    <h1 class="reveal" style="--d:.06s">{title}{sub && <small set:html={sub} />}</h1>
+    {lead && <p class="lead reveal" style="--d:.12s">{lead}</p>}
+    <div class="reveal" style="--d:.18s"><slot /></div>
+  </div>
+</section>

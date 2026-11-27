@@ -1,0 +1,18 @@
+# ─────────────────────────────────────────────────────────────
+#  건설관리 및 경영 전공 교과목  (교과 개편 시 수정, 보통 연 1회)
+# ─────────────────────────────────────────────────────────────
+#  · track : control(관리기술) | business(경영·전략) | digital(데이터·디지털)
+# ─────────────────────────────────────────────────────────────
+
+- { id: c01, name: 건설경영학개론, name_en: Introduction to Construction Business Management, track: business }
+- { id: c02, name: 건설경영특론, name_en: Advanced Construction Business Management, track: business }
+- { id: c03, name: 건설프로젝트사전계획, name_en: Construction Project Pre-Planning, track: business }
+- { id: c04, name: 프로젝트금융, name_en: Project Finance, track: business }
+- { id: c05, name: 공정관리특론, name_en: Advanced Construction Scheduling, track: control }
+- { id: c06, name: 원가관리특론, name_en: Advanced Construction Cost Management, track: control }
+- { id: c07, name: 품질 및 안전관리특론, name_en: Advanced Quality and Safety Management, track: control }
+- { id: c08, name: 건설계약특론, name_en: Advanced Construction Contracts, track: control }
+- { id: c09, name: 건설정보화와 프로젝트관리시스템, name_en: Construction IT and Project Management Systems, track: digital }
+- { id: c10, name: 건설자동화개론, name_en: Introduction to Construction Automation, track: digital }
+- { id: c11, name: 정량적 자료분석방법, name_en: Quantitative Data Analysis Methods, track: digital }
+- { id: c12, name: 연구방법론, name_en: Research Methodology, track: digital }

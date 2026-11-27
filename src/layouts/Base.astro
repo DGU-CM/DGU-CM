@@ -1,0 +1,85 @@
+---
+import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource/ibm-plex-mono/600.css';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../site.config';
+import { url } from '../lib/data';
+import { localePath, type Lang } from '../lib/i18n';
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: Lang;
+  /** 언어와 무관한 논리 경로 (예: '/research'). 없으면 언어 대체 링크를 만들지 않습니다. */
+  path?: string;
+}
+const { title, lang = 'en', path } = Astro.props;
+const description = Astro.props.description ?? (lang === 'ko' ? SITE.description : SITE.descriptionEn);
+const fullTitle = title ? `${title} | DGU CM Lab` : `DGU CM Lab | ${lang === 'ko' ? '동국대학교 건설관리 및 경영 연구실' : 'Construction Management Lab, Dongguk University'}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const altHref = (l: Lang) => (path ? new URL(url(localePath(l, path)), Astro.site).href : undefined);
+const ogImage = new URL(url('/og.png'), Astro.site);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ResearchOrganization',
+  name: `${SITE.university} ${SITE.nameKo}`,
+  alternateName: ['DGU CM Lab', `${SITE.nameEn}, ${SITE.universityEn}`],
+  url: new URL(url('/'), Astro.site).href,
+  parentOrganization: { '@type': 'CollegeOrUniversity', name: SITE.universityEn },
+  address: { '@type': 'PostalAddress', streetAddress: SITE.location, addressCountry: 'KR' },
+  ...(SITE.email ? { email: SITE.email } : {}),
+};
+---
+<!doctype html>
+<html lang={lang} class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {process.env.NOINDEX && <meta name="robots" content="noindex" />}
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
+    <!-- 손글씨 폰트(말풍선용)는 렌더링을 막지 않도록 비동기로 불러옵니다 -->
+    <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />
+    <meta name="theme-color" content="#F7F6F2" />
+    {path && (
+      <>
+        <link rel="alternate" hreflang="en" href={altHref('en')} />
+        <link rel="alternate" hreflang="ko" href={altHref('ko')} />
+        <link rel="alternate" hreflang="x-default" href={altHref('en')} />
+      </>
+    )}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="DGU CM Lab" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={lang === 'ko' ? 'ko_KR' : 'en_US'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script is:inline>document.documentElement.classList.remove('no-js')</script>
+    {/* 한국어를 직접 고른 방문자는 다음 방문부터 한국어 페이지로 안내 (기본은 영어) */}
+    {lang === 'en' && path && (
+      <script is:inline define:vars={{ ko: url(localePath('ko', path)) }}>try{if(localStorage.getItem('cmlab-lang')==='ko'&&!/[?&]lang=en/.test(location.search))location.replace(ko+location.hash)}catch(e){}</script>
+    )}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{lang === 'ko' ? '본문 바로가기' : 'Skip to content'}</a>
+    <Header lang={lang} path={path} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <script>
+      import '../scripts/reveal.ts';
+    </script>
+  </body>
+</html>

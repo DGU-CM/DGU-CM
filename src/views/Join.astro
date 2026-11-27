@@ -1,0 +1,268 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { SITE } from '../site.config';
+import { photoImg } from '../lib/images';
+import { getCourses, getStats, getPeople, TRACKS, url } from '../lib/data';
+import { CAREER_PATHS } from '../lib/careers';
+import { localePath, pick, type Lang } from '../lib/i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = pick(lang);
+const ko = lang === 'ko';
+const L = (p: string) => url(localePath(lang, p));
+const i = ko ? 0 : 1;
+
+const [courses, stats, people] = await Promise.all([getCourses(), getStats(), getPeople()]);
+const prof = people.find((p) => p.role === 'prof');
+const tracks = (Object.keys(TRACKS) as (keyof typeof TRACKS)[]).map((k) => ({ key: k, ...TRACKS[k], list: courses.filter((c) => c.track === k) }));
+
+const why = [
+  { n: `${stats.projectsTotal}+`, t: ['국가·산업 과제 경험', 'Real national projects'], d: ['정부부처·공공기관·협회 과제에 직접 참여하며 연구 역량과 실무 감각을 함께 기릅니다.', 'Work directly on projects for ministries, public agencies and associations — building research skills and industry sense together.'] },
+  { icon: 'users', t: ['업계 네트워크', 'Industry network'], d: ['과제로 만나는 발주기관과 업계 전문가가 졸업 후의 네트워크가 됩니다.', 'The clients and experts you meet through projects become your network after graduation.'] },
+  { icon: 'compass', t: ['넓은 진로', 'Wide career options'], d: ['CM·엔지니어링, 건설사, 공공기관, 금융·컨설팅, 해외건설까지 — 건설관리 역량은 다양한 분야로 이어집니다.', 'CM and engineering, contractors, the public sector, finance, consulting and global construction — CM skills open many doors.'] },
+];
+const looking = [
+  { t: ['건설산업의 ‘규칙’이 궁금한 사람', 'Curious about the rules of construction'], d: ['입낙찰·발주제도, 공사비, 업역 체계처럼 산업을 움직이는 제도에 관심이 있다면 연구 주제가 넘쳐납니다.', 'If procurement, cost standards and industry structure interest you, there is no shortage of research questions.'] },
+  { t: ['현장을 데이터로 보고 싶은 사람', 'Want to see sites through data'], d: ['드론·IoT·로봇·블록체인 등 기술이 현장 관리 방식을 어떻게 바꾸는지 데이터로 증명하는 연구를 합니다.', 'We prove with data how drones, IoT, robotics and blockchain change the way sites are managed.'] },
+  { t: ['실무와 연구를 잇고 싶은 사람', 'Bridging practice and research'], d: ['현장·발주처·엔지니어링사에서의 경험은 좋은 연구 질문의 출발점이 됩니다. 실무 경력자도 환영합니다.', 'Experience at sites, owners or engineering firms is a great starting point for research. Working professionals are welcome.'] },
+];
+const steps = [
+  { icon: 'mail', t: ['문의·면담', 'Contact & meet'], d: ['관심 분야와 진로 계획을 편하게 이야기하는 자리입니다. 연구실을 직접 방문해도 좋습니다.', 'An informal talk about your interests and plans. You are welcome to visit the lab.'] },
+  { icon: 'doc', t: ['대학원 입학 지원', 'Apply to the graduate school'], d: ['동국대학교 일반대학원 건설환경공학과 모집 일정에 맞춰 지원합니다. 일정은 대학원 모집요강을 확인하세요.', 'Apply to the Dept. of Civil & Environmental Engineering, Dongguk University Graduate School, following its admission schedule.'] },
+  { icon: 'flag', t: ['연구실 합류', 'Join the lab'], d: ['전공 교과목을 이수하며 연구 과제에 참여하고, 관심 분야를 학위논문 주제로 발전시킵니다.', 'Take core courses, join research projects and grow your interests into a thesis topic.'] },
+];
+const faqs = [
+  { q: ['건설·토목 전공이 아니어도 지원할 수 있나요?', 'Can I apply without a civil engineering background?'], a: ['가능합니다. 건설관리는 경영·경제·데이터·정책이 만나는 융합 분야입니다. 입학 후 전공 교과목으로 기초를 함께 다집니다.', 'Yes. Construction management sits where business, economics, data and policy meet. Core courses build the foundations after you join.'] },
+  { q: ['어떤 연구 주제를 선택할 수 있나요?', 'What research topics can I choose?'], a: ['정책·제도, 공사비·사업관리, 스마트건설, 글로벌 건설시장 분야 안에서 본인의 관심과 진행 중인 과제를 고려해 지도교수와 함께 정합니다.', 'Within policy, cost & project management, smart construction and global markets — decided with the professor based on your interests and ongoing projects.'] },
+  { q: ['연구 과제에 참여하나요?', 'Will I work on research projects?'], a: ['네. 정부·공공기관 과제에 참여하며 연구 역량과 실무 감각을 함께 기릅니다. 참여 방식과 지원 사항은 면담에서 자세히 안내합니다.', 'Yes. You will work on government and public-agency projects. Details on participation and support are explained in the interview.'] },
+  { q: ['졸업 후 어떤 분야로 진출할 수 있나요?', 'Where can a CM degree take me?'], a: ['건설관리 전공자는 CM·엔지니어링사, 건설사·디벨로퍼, 공공기관, 국책연구기관, 금융·컨설팅, 해외건설 등으로 진출할 수 있습니다. People 페이지의 진로 지도를 확인하세요.', 'CM graduates can go to CM and engineering firms, contractors and developers, public agencies, research institutes, finance and consulting, and global construction — see the career map on the People page.'] },
+  { q: ['유학생도 지원할 수 있나요?', 'Can international students apply?'], a: ['환영합니다. 현재도 해외 출신 연구원이 함께하고 있으며, 면담에서 학업과 연구 과정을 자세히 안내받을 수 있습니다.', 'Absolutely. International researchers are already part of the team, and we will walk you through study and research in the interview.'] },
+];
+const gallery = [
+  { f: 'lab-office.jpg', alt: ['연구실 회의 테이블', 'Meeting table in the lab'] },
+  { f: 'lab-books.jpg', alt: ['연구실 서가', 'Bookshelves in the lab'] },
+];
+const mapUrl = ko ? `https://map.naver.com/p/search/${encodeURIComponent('동국대학교 원흥관')}` : `https://www.google.com/maps/search/${encodeURIComponent('Dongguk University Wonheung-gwan')}`;
+---
+<Base lang={lang} path="/join" title="Join Us" description={t('DGU CM Lab 석·박사 과정 연구원 모집 — 국가 과제 참여, 인재상, 지원 절차, 교과목, FAQ', 'Join DGU CM Lab — M.S./Ph.D. positions, real national projects, how to apply, courses and FAQ')}>
+  <PageHero
+    eyebrow="Join Us"
+    title="Join Us"
+    sub={t("함께 연구할 <span>석·박사 과정</span><br />연구원을 찾습니다", "We are looking for <span>M.S. & Ph.D.</span><br />researchers")}
+    lead={t('국가 정책 과제와 산업 현장 연구에 직접 참여하며 성장하세요. 전공과 경력, 국적에 상관없이 환영합니다.', 'Grow by working on national policy projects and real industry research. All majors, career stages and nationalities are welcome.')}
+  >
+    <div class="hero-cta">
+      <a class="btn btn--accent" href="#contact">{t('문의·방문 안내', 'Contact & visit')} <Icon name="arrow" /></a>
+      <a class="btn btn--ghost" href="#faq">{t('자주 묻는 질문', 'FAQ')}</a>
+    </div>
+  </PageHero>
+
+  <!-- WHY -->
+  <section class="section section--navy blueprint why">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Why CM Lab</p>
+        <h2 class="h2" style="color:#fff">{t('이 연구실에서 얻는 것', 'What you get here')}</h2>
+      </div>
+      <ul class="why__grid">
+        {why.map((w, n) => (
+          <li class="reveal" style={`--d:${n * 0.08}s`}>
+            {w.n ? <b class="mono">{w.n}</b> : <span class="why__icon"><Icon name={w.icon!} size={34} /></span>}
+            <h3>{w.t[i]}</h3>
+            <p>{w.d[i]}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- LOOKING FOR -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Who We Look For</p>
+        <h2 class="h2">{ko ? <>이런 분과 <span>함께하고 싶습니다</span></> : <>People we would <span>love to work with</span></>}</h2>
+      </div>
+      <ol class="looking">
+        {looking.map((l, n) => (
+          <li class="looking__item reveal" style={`--d:${n * 0.08}s`}>
+            <svg class="looking__check" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 26c5 4 8 8 11 13C24 26 31 16 41 8" /></svg>
+            <h3 class="h3">{l.t[i]}</h3>
+            <p>{l.d[i]}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- STEPS -->
+  <section class="section section--paper2 blueprint">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div>
+          <p class="eyebrow">How to Join</p>
+          <h2 class="h2" style="margin-top:16px">{t('지원 절차', 'How to apply')}</h2>
+        </div>
+        <p class="lead">{ko ? <>가장 중요한 첫 단계는 <span>면담</span>입니다. 연구실이 나와 맞는지 먼저 확인해 보세요.</> : <>The most important first step is a <span>conversation</span>. See whether the lab is a good fit for you.</>}</p>
+      </div>
+      <ol class="steps">
+        {steps.map((s, n) => (
+          <li class="step reveal" style={`--d:${n * 0.1}s`}>
+            <span class="step__n"><Icon name={s.icon} size={20} /></span>
+            <h3 class="h3">{s.t[i]}</h3>
+            <p>{s.d[i]}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- COURSES -->
+  <section class="section" id="courses">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div>
+          <p class="eyebrow">Curriculum</p>
+          <h2 class="h2" style="margin-top:16px">{t('건설관리 및 경영 전공 교과목', 'Construction management curriculum')}</h2>
+        </div>
+        <p class="lead">{t('관리기술, 경영·전략, 데이터·디지털 축의 교과목으로 건설관리 전문가의 기초를 다집니다.', 'Courses in project control, business & strategy, and data & digital build the foundations of a CM professional.')}</p>
+      </div>
+      <div class="tracks">
+        {tracks.map((tr, n) => (
+          <div class="track reveal" style={`--d:${n * 0.08}s`}>
+            <p class="track__no mono">Track {String.fromCharCode(65 + n)}</p>
+            <h3 class="h3">{ko ? tr.ko : tr.en}</h3>
+            {ko && <p class="track__en mono">{tr.en}</p>}
+            <ul>{tr.list.map((c) => <li>{ko ? c.name : c.name_en ?? c.name}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- LIFE -->
+  <section class="section section--paper2">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div>
+          <p class="eyebrow">Lab Life</p>
+          <h2 class="h2" style="margin-top:16px">{t('연구실의 하루', 'Life in the lab')}</h2>
+        </div>
+        <p class="lead">{t('과제 회의와 자료 분석이 이루어지는 곳. 연구실은 동료와 함께 성장하는 곳입니다.', 'Where project meetings and data analysis happen — a place to grow alongside your colleagues.')}</p>
+      </div>
+      <ul class="gallery">
+        {gallery.map((g, n) => (
+          <li class="gallery__item reveal" style={`--d:${n * 0.06}s`}>
+            <Image src={photoImg(g.f)!} alt={g.alt[i]} widths={[400, 600, 800]} sizes="(max-width: 700px) 100vw, 600px" />
+          </li>
+        ))}
+      </ul>
+      <p class="gallery__caption"><Icon name="pin" size={16} />{t(`연구실 · ${SITE.locationShort}`, 'The lab · Room F612, Wonheung-gwan')}</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="container faq-wrap">
+      <div>
+        <p class="eyebrow">FAQ</p>
+        <h2 class="h2" style="margin-top:16px">{t('자주 묻는 질문', 'Frequently asked questions')}</h2>
+      </div>
+      <div class="faq">
+        {faqs.map((f, n) => (
+          <details class="faq__item" open={n === 0}>
+            <summary><span>{f.q[i]}</span><Icon name="plus" size={20} /></summary>
+            <p>{f.a[i]}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section section--navy blueprint contact" id="contact">
+    <div class="container contact__grid">
+      <div>
+        <p class="eyebrow">Contact</p>
+        <h2 class="h2" style="margin-top:16px;color:#fff">{ko ? <>연구실로 <span style="color:#F4A06C">놀러 오세요</span></> : <>Come and <span style="color:#F4A06C">visit us</span></>}</h2>
+        <p class="lead" style="margin-top:20px">{t('궁금한 점이 있다면 언제든 문의하거나 연구실을 방문해 주세요.', 'Questions? Get in touch or drop by the lab any time.')}</p>
+        <div class="contact__actions">
+          {SITE.inquiryFormUrl && <a class="btn btn--accent" href={SITE.inquiryFormUrl} target="_blank" rel="noopener">{t('문의 양식 작성하기', 'Send an inquiry')} <Icon name="external" /></a>}
+          {SITE.email && <a class="btn btn--ghost" href={`mailto:${SITE.email}`}><Icon name="mail" />{SITE.email}</a>}
+          <a class="btn btn--ghost" href={mapUrl} target="_blank" rel="noopener"><Icon name="pin" />{t('지도에서 보기', 'Open map')}</a>
+        </div>
+      </div>
+      <dl class="contact__card">
+        <div><dt>{t('위치', 'Where')}</dt><dd>{ko ? SITE.location : SITE.locationEn}</dd></div>
+        <div><dt>{t('소속', 'Dept.')}</dt><dd>{ko ? `${SITE.university} ${SITE.department}` : `${SITE.departmentEn}, ${SITE.universityEn}`}</dd></div>
+        {SITE.email && <div><dt>{t('이메일', 'Email')}</dt><dd>{SITE.email}</dd></div>}
+        {prof?.email && <div><dt>{t('지도교수', 'Professor')}</dt><dd><a href={`mailto:${prof.email}`}>{prof.email}</a>{prof.phone && <><br />{ko ? prof.phone : `+82-${prof.phone.replace(/^0/, '')}`}</>}{prof.office && <><br />{ko ? prof.office : prof.office_en}</>}</dd></div>}
+        <div><dt>{ko ? 'English' : '한국어'}</dt><dd><a href={url(localePath(ko ? 'en' : 'ko', '/join'))} data-lang={ko ? 'en' : 'ko'}>{ko ? 'How to apply (English) →' : '지원 안내 (한국어) →'}</a></dd></div>
+      </dl>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+  .why { overflow: hidden; }
+  .why__grid { list-style: none; display: grid; gap: 1px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.14); border-radius: var(--radius); overflow: hidden; }
+  .why__grid li { background: var(--navy); padding: clamp(26px, 3vw, 40px); }
+  .why__icon { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 18px; background: rgba(255,255,255,.08); color: #f4a06c; }
+  .why__grid b { display: block; font-size: clamp(44px, 5vw, 64px); color: #fff; font-weight: 600; letter-spacing: -0.05em; line-height: 1; }
+  .why__grid h3 { color: #fff; font-size: 20px; margin-top: 18px; letter-spacing: -0.02em; }
+  .why__grid p { color: #c3cfdb; margin-top: 10px; line-height: 1.7; font-size: 15px; }
+
+  .looking { list-style: none; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .looking__item { padding: 32px 28px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+  .looking__check { width: 44px; height: 44px; margin-bottom: 18px; }
+  .looking__check path { fill: none; stroke: var(--orange); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 60; stroke-dashoffset: 60; transition: stroke-dashoffset .8s var(--ease) calc(var(--d, 0s) + .3s); }
+  .looking__item.is-in .looking__check path, .no-js .looking__check path { stroke-dashoffset: 0; }
+  .looking__item p { margin-top: 12px; color: var(--ink-2); font-size: 15.5px; line-height: 1.7; }
+
+  .steps { list-style: none; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .step { position: relative; padding: 32px 28px 30px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+  .step__n { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--ink); font-size: 14px; font-weight: 600; margin-bottom: 18px; }
+  .step:first-child .step__n { background: var(--orange); border-color: var(--orange); color: #fff; }
+  .step p { margin-top: 10px; color: var(--ink-2); font-size: 15.5px; line-height: 1.7; }
+  @media (min-width: 900px) {
+    .step:not(:last-child)::after { content: ''; position: absolute; right: -14px; top: 54px; width: 12px; height: 12px; border-top: 2px solid var(--line-2); border-right: 2px solid var(--line-2); transform: rotate(45deg); z-index: 1; }
+  }
+
+  .tracks { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .track { padding: 30px 28px; border-top: 3px solid var(--ink); background: var(--surface); border-radius: 0 0 var(--radius) var(--radius); border-left: 1px solid var(--line); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .track__no { font-size: 12.5px; color: var(--orange-ink); font-weight: 600; margin-bottom: 10px; }
+  .track__en { font-size: 12px; color: var(--ink-3); margin-top: 6px; }
+  .track ul { list-style: none; margin-top: 20px; }
+  .track li { padding: 12px 0; border-top: 1px solid var(--line); font-weight: 600; font-size: 15.5px; }
+
+  .gallery { list-style: none; display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .gallery__caption { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 18px; font-size: 15px; font-weight: 600; color: var(--ink-2); }
+  .gallery__item { position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 4 / 3; background: var(--paper-3); }
+  .gallery__item :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+  .gallery__item:hover :global(img) { transform: scale(1.05); }
+
+  .faq-wrap { display: grid; gap: 40px; }
+  @media (min-width: 900px) { .faq-wrap { grid-template-columns: 0.8fr 1.2fr; gap: 80px; } }
+  .faq { border-top: 1.5px solid var(--ink); }
+  .faq__item { border-bottom: 1px solid var(--line); }
+  .faq__item summary { list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 22px 0; cursor: pointer; font-weight: 700; font-size: 18px; letter-spacing: -0.02em; }
+  .faq__item summary::-webkit-details-marker { display: none; }
+  .faq__item summary :global(svg) { flex: none; transition: transform .3s var(--ease); color: var(--ink-3); }
+  .faq__item[open] summary :global(svg) { transform: rotate(45deg); color: var(--orange); }
+  .faq__item p { padding: 0 40px 24px 0; color: var(--ink-2); line-height: 1.75; }
+
+  .contact { overflow: hidden; }
+  .contact__grid { display: grid; gap: 40px; position: relative; }
+  @media (min-width: 900px) { .contact__grid { grid-template-columns: 1.1fr 0.9fr; gap: 72px; align-items: center; } }
+  .contact__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+  .contact__card { margin: 0; padding: 28px; border-radius: var(--radius); background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); display: grid; gap: 16px; }
+  .contact__card div { display: grid; grid-template-columns: 80px 1fr; gap: 12px; }
+  .contact__card dt { font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; color: #f4a06c; text-transform: uppercase; padding-top: 3px; }
+  .contact__card dd { margin: 0; color: #fff; line-height: 1.6; }
+  .contact__card a:hover { text-decoration: underline; }
+</style>

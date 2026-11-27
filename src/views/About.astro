@@ -1,0 +1,179 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { SITE } from '../site.config';
+import { photoImg } from '../lib/images';
+import { getStats, getPeople, personName, url } from '../lib/data';
+import { localePath, pick, type Lang } from '../lib/i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = pick(lang);
+const ko = lang === 'ko';
+const L = (p: string) => url(localePath(lang, p));
+
+const [stats, people] = await Promise.all([getStats(), getPeople()]);
+const prof = people.find((p) => p.role === 'prof');
+
+// 주요 연혁 — 연 1회 점검 (큰 이정표만 5~8개)
+const milestones = [
+  { y: '2007', t: ['메가프로젝트 건설관리', 'Mega-project management'], d: ['LH 공사 메가프로젝트 건설관리 시스템 개발', 'Construction management system for mega-projects (LH)'] },
+  { y: '2008', t: ['국가 산업정책 연구', 'National industry policy'], d: ['국토교통부 건설 업종·업역 체계 개편 방안 연구', 'Restructuring construction business categories for MOLIT'] },
+  { y: '2013', t: ['국방 메가프로그램', 'Defense mega-program'], d: ['주한미군기지이전사업 건설관리 효율화 연구, 2015년 CM 컨설팅으로 확대 (국방부)', 'USFK base relocation — management study, expanded to CM consulting in 2015 (Ministry of National Defense)'] },
+  { y: '2016', t: ['국가 발주제도 개편', 'National procurement reform'], d: ['건설기술용역 종합심사낙찰제 도입 연구 1~3차, 2018년 발주자 운영지침으로 이어짐 (국토교통부)', 'Best-value procurement study, phases 1–3, followed by the 2018 owner guidelines (MOLIT)'] },
+  { y: '2018', t: ['스마트건설 연구 본격화', 'Smart construction research'], d: ['드론·IoT 기반 안전·환경관리 모델 개발 및 현장 파일럿 테스트 (한국연구재단)', 'Drone- and IoT-based safety management model with on-site pilot test (NRF)'] },
+  { y: '2019', t: ['블록체인 건설거래', 'Blockchain marketplace'], d: ['블록체인 기반 온라인 건설거래 시장 모델 개발, 2024년까지 수행 (한국연구재단)', 'Blockchain-based online construction marketplace model, through 2024 (NRF)'] },
+  { y: '2026', t: ['건설작업로봇 R&D', 'Construction robotics R&D'], d: ['공동주택 건설생산성 혁신을 위한 다용도 건설작업로봇 설계·통합관리 기술 (국토진흥원)', 'Multi-purpose construction robots and integrated management for apartment housing (KAIA)'] },
+];
+
+const pillars = [
+  { k: '01', t: ['규칙을 설계합니다', 'We design the rules'], en: 'Design the Rules', d: ['입낙찰·발주제도, 공사비, 업역 체계 등 건설산업을 움직이는 제도를 진단하고, 실제 정책으로 이어지는 개선안을 만듭니다.', 'We diagnose the systems that run the industry — procurement, cost standards, business categories — and design improvements that become real policy.'] },
+  { k: '02', t: ['현장을 관리합니다', 'We manage the projects'], en: 'Manage the Projects', d: ['메가프로젝트와 국방사업의 건설사업관리, 공사비 산정 모델처럼 프로젝트가 제대로 굴러가게 하는 방법을 연구합니다.', 'From CM for mega and defense programs to cost estimation models, we research how to keep projects on track.'] },
+  { k: '03', t: ['미래를 준비합니다', 'We prepare the future'], en: 'Prepare the Future', d: ['드론·IoT·블록체인·로봇 등 새로운 기술과 미래 건설 인력이 산업을 어떻게 바꿀지 앞서 연구합니다.', 'We study ahead how drones, IoT, blockchain, robotics and the future workforce will reshape construction.'] },
+];
+const i = ko ? 0 : 1;
+---
+<Base lang={lang} path="/about" title="About" description={t('DGU CM Lab 연구실 소개 — 미션, 주요 이정표, 지도교수, 오시는 길', 'About DGU CM Lab — mission, milestones, professor and location')}>
+  <PageHero eyebrow="About" title="About" sub={t('건설산업의 규칙을 설계하고,<br />현장의 미래를 관리합니다', 'Designing the rules,<br />managing the future of construction')}>
+  </PageHero>
+
+  <!-- INTRO -->
+  <section class="section intro">
+    <div class="container intro__grid">
+      {ko ? (
+        <p class="intro__big reveal">
+          {SITE.university} 건설관리 및 경영 연구실은 Construction · Project · Program Management 분야의{' '}
+          <span>실무형 인재</span>를 기르고, 건설산업 전반의 관리 효율을 높이는{' '}
+          <span>실용적 연구</span>를 합니다.
+        </p>
+      ) : (
+        <p class="intro__big reveal">
+          The Construction Management Lab at Dongguk University trains{' '}
+          <span>practice-ready experts</span> in construction, project and program management, and delivers{' '}
+          <span>practical research</span> that makes the whole industry run better.
+        </p>
+      )}
+      <div class="intro__side reveal" style="--d:.1s">
+        <p>{t(
+          '정부부처·공공기관·협회·학회·산업계와 함께 사업관리와 정보화 중심의 실무 연구를 수행해 왔으며, 국내 대학·유관기관과의 협력으로 건설산업의 고부가가치화와 첨단기술 융합을 연구하고 있습니다.',
+          'We have carried out applied research on project management and construction IT with ministries, public agencies, associations, societies and industry — and work with universities and institutes on high-value, technology-driven construction.',
+        )}</p>
+        <dl class="intro__facts">
+          <div><dt>{t('수행 과제', 'Projects')}</dt><dd class="mono">{stats.projectsTotal}+</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- PILLARS -->
+  <section class="section section--navy blueprint pillars">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Mission</p>
+        <h2 class="h2" style="color:#fff">{t('연구실이 하는 일', 'What we do')}</h2>
+      </div>
+      <ol class="pillars__list">
+        {pillars.map((p, n) => (
+          <li class="pillar reveal" style={`--d:${n * 0.1}s`}>
+            <h3 class="h3">{p.t[i]}</h3>
+            {ko && <p class="pillar__en mono">{p.en}</p>}
+            <p class="pillar__d">{p.d[i]}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- MILESTONES -->
+  <section class="section milestones">
+    <div class="container ms__grid">
+      <div class="ms__head">
+        <p class="eyebrow">Milestones</p>
+        <h2 class="h2" style="margin-top:16px">{t('주요 이정표', 'Milestones')}</h2>
+        <p class="lead" style="margin-top:20px">{t('제도 연구에서 시작해 사업관리, 스마트건설, 건설로봇까지. 연구실이 걸어온 길입니다.', 'From policy research to project management, smart construction and robotics — the path we have taken.')}</p>
+        <a class="link-arrow" style="margin-top:28px" href={L('/research#cases')}>{t('주요 연구 사례 보기', 'See key cases')} <Icon name="arrow" /></a>
+      </div>
+      <ol class="ms">
+        {milestones.map((m, n) => (
+          <li class="ms__item reveal" style={`--d:${n * 0.05}s`}>
+            <span class="ms__y mono">{m.y}</span>
+            <div>
+              <h3>{m.t[i]}</h3>
+              <p>{m.d[i]}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- PROF + LOCATION -->
+  <section class="section section--paper2">
+    <div class="container bottom__grid">
+      <a class="card mini-prof reveal" href={L('/people')}>
+        <div class="mini-prof__photo">
+          <Image src={photoImg('professor.png')!} alt={t('김상범 교수', `Prof. ${prof ? personName(prof, 'en') : ''}`)} widths={[200, 320]} sizes="160px" quality={90} />
+        </div>
+        <div>
+          <p class="eyebrow">Professor</p>
+          <h3 class="mini-prof__name">{ko ? `${prof?.name ?? ''} 교수` : `Prof. ${prof ? personName(prof, 'en') : ''}`}</h3>
+          <p class="muted">{ko ? `${SITE.university} ${SITE.department}` : `${SITE.departmentEn}, ${SITE.universityEn}`}</p>
+          <p class="muted">{t('Ph.D., University of Texas at Austin (건설공학·프로젝트관리)', 'Ph.D., The University of Texas at Austin (CEPM)')}</p>
+          <span class="link-arrow" style="margin-top:18px">{t('구성원 보기', 'Meet the team')} <Icon name="arrow" /></span>
+        </div>
+      </a>
+      <div class="card location reveal" style="--d:.1s">
+        <p class="eyebrow">Location</p>
+        <h3 class="location__title">{t('찾아오시는 길', 'Visit us')}</h3>
+        <p class="location__addr"><Icon name="pin" size={18} />{ko ? SITE.location : SITE.locationEn}</p>
+        <p class="muted" style="margin-top:8px">{t('지하철 3호선 동대입구역 인근 · 동국대학교 서울캠퍼스 원흥관', 'Near Dongguk Univ. Station (Line 3) · Wonheung-gwan, Seoul campus')}</p>
+        <a class="btn btn--ghost" style="margin-top:24px" href={ko ? `https://map.naver.com/p/search/${encodeURIComponent('동국대학교 원흥관')}` : `https://www.google.com/maps/search/${encodeURIComponent('Dongguk University Wonheung-gwan')}`} target="_blank" rel="noopener">{t('지도에서 보기', 'Open map')} <Icon name="external" /></a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .intro__grid { display: grid; gap: 40px; }
+  @media (min-width: 960px) { .intro__grid { grid-template-columns: 1.3fr 0.7fr; gap: 80px; align-items: end; } }
+  .intro__big { font-size: clamp(24px, 3vw, 38px); line-height: 1.55; letter-spacing: -0.035em; font-weight: 700; }
+  .intro__side p { color: var(--ink-2); line-height: 1.8; }
+  .intro__facts { margin: 32px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1.5px solid var(--ink); }
+  .intro__facts div { padding-top: 14px; }
+  .intro__facts dt { font-size: 13px; color: var(--ink-3); font-weight: 600; }
+  .intro__facts dd { margin: 4px 0 0; font-size: 30px; font-weight: 600; letter-spacing: -0.04em; }
+
+  .pillars { overflow: hidden; }
+  .pillars__list { list-style: none; display: grid; gap: 1px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.14); border-radius: var(--radius); overflow: hidden; }
+  .pillar { background: var(--navy); padding: clamp(28px, 3.4vw, 44px); }
+  .pillar__k { font-size: 13px; color: #f4a06c; font-weight: 600; }
+  .pillar h3 { color: #fff; margin-top: 28px; font-size: clamp(24px, 2.6vw, 30px); }
+  .pillar__en { font-size: 12.5px; color: #8fa1b4; margin-top: 6px; }
+  .pillar__d { margin-top: 18px; color: #c3cfdb; line-height: 1.75; font-size: 15.5px; }
+
+  .ms__grid { display: grid; gap: 48px; }
+  @media (min-width: 960px) { .ms__grid { grid-template-columns: 0.8fr 1.2fr; gap: 96px; } .ms__head { position: sticky; top: calc(var(--header-h) + 40px); align-self: start; } }
+  .ms__head { display: grid; justify-items: start; }
+  .ms { list-style: none; position: relative; }
+  .ms::before { content: ''; position: absolute; left: 66px; top: 8px; bottom: 8px; width: 2px; background: repeating-linear-gradient(to bottom, var(--line-2) 0 6px, transparent 6px 12px); }
+  .ms__item { display: grid; grid-template-columns: 52px 1fr; gap: 40px; padding: 0 0 36px; position: relative; }
+  .ms__item::before { content: ''; position: absolute; left: 60px; top: 8px; width: 14px; height: 14px; border-radius: 50%; background: var(--paper); border: 2.5px solid var(--navy); }
+  .ms__item:last-child::before { background: var(--orange); border-color: var(--orange); }
+  .ms__y { font-size: 17px; font-weight: 600; padding-top: 1px; }
+  .ms__item h3 { font-size: 20px; letter-spacing: -0.03em; }
+  .ms__item p { margin-top: 6px; color: var(--ink-2); font-size: 15.5px; line-height: 1.7; }
+
+  .bottom__grid { display: grid; gap: 16px; }
+  @media (min-width: 900px) { .bottom__grid { grid-template-columns: 1fr 1fr; } }
+  .mini-prof { display: flex; gap: 28px; align-items: center; padding: clamp(24px, 3vw, 36px); transition: transform .3s var(--ease), box-shadow .3s; }
+  .mini-prof:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); }
+  .mini-prof__photo { flex: none; width: 128px; border-radius: 14px; overflow: hidden; border: 5px solid #fff; box-shadow: var(--shadow-1); }
+  .mini-prof__name { font-size: 28px; margin: 10px 0 4px; }
+  .location { padding: clamp(24px, 3vw, 36px); }
+  .location__title { font-size: 28px; margin: 10px 0 14px; }
+  .location__addr { display: flex; gap: 8px; align-items: flex-start; font-weight: 600; line-height: 1.6; }
+  .location__addr :global(svg) { flex: none; margin-top: 4px; color: var(--orange); }
+  @media (max-width: 520px) { .mini-prof { flex-direction: column; align-items: flex-start; } }
+</style>
