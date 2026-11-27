@@ -1,0 +1,339 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import ClientNetwork from '../components/ClientNetwork.astro';
+import CareerMap from '../components/CareerMap.astro';
+import { SITE } from '../site.config';
+import { photoImg } from '../lib/images';
+import { AREAS, AREA_ORDER, getClientGroups, getFeatured, getStats, getActiveUpdates, clientNamer, isOngoing, period, quarterLabel, url } from '../lib/data';
+import { localePath, pick, type Lang } from '../lib/i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = pick(lang);
+const ko = lang === 'ko';
+const L = (p: string) => url(localePath(lang, p));
+
+const [featured, stats, updates, clientName] = await Promise.all([getFeatured(), getStats(), getActiveUpdates(), clientNamer()]);
+const homeFeatured = featured.slice(0, 3);
+const groups = await getClientGroups();
+---
+<Base lang={lang} path="/">
+  <!-- ═════════ HERO ═════════ -->
+  <section class="hero blueprint">
+    <div class="container hero__grid">
+      <div class="hero__copy">
+        <p class="eyebrow reveal">Dongguk University · Construction Management Lab</p>
+        {ko ? (
+          <h1 class="display hero__title reveal" style="--d:.08s">
+            건설산업의 <span>규칙</span>을<br class="br-m" /> 설계하고,<br />
+            현장의 <span>미래</span>를<br class="br-m" /> 관리합니다.
+          </h1>
+        ) : (
+          <h1 class="display hero__title hero__title--en reveal" style="--d:.08s">
+            Designing the <span>rules</span>,<br />
+            managing the <span>future</span><br />
+            of construction.
+          </h1>
+        )}
+        <p class="lead reveal" style="--d:.16s">
+          {t(
+            `정부부처·공공기관·협회·학회와 함께 ${stats.projectsTotal}여 건의 연구를 수행해 왔습니다. 건설산업의 제도와 사업관리, 스마트건설 연구로 실제 정책과 현장을 바꿉니다.`,
+            `The Construction Management Lab at Dongguk University has delivered ${stats.projectsTotal}+ research projects for government ministries, public agencies, industry associations and academic societies — research that becomes real rules and real projects.`,
+          )}
+        </p>
+        <div class="hero__cta reveal" style="--d:.24s">
+          <a class="btn btn--primary" href={L('/research')}>{t('주요 연구 사례 보기', 'Explore key projects')} <Icon name="arrow" /></a>
+          <a class="btn btn--ghost" href={L('/join')}>{t('대학원 지원 안내', 'Join the lab')}</a>
+        </div>
+      </div>
+      <div class="hero__visual reveal" style="--d:.2s">
+        <div class="hero__photo">
+          <Image src={photoImg('hero.jpg')!} alt={t('타워크레인이 선 도심의 대형 건설 현장', 'A large urban construction site with tower cranes at dusk')} widths={[640, 960, 1280, 1536]} sizes="(max-width: 960px) 100vw, 620px" loading="eager" fetchpriority="high" quality={82} class="hero__img" />
+          {homeFeatured[0] && isOngoing(homeFeatured[0]) && (
+            <a class="hero__badge" href={L(`/research#case-${homeFeatured[0].id}`)}>
+              <span class="chip chip--live">{t('진행 중', 'Now')}</span>
+              <span>{t('건설작업로봇 국가 R&D', 'National R&D on construction robotics')}<small>{clientName(homeFeatured[0].client, lang)}</small></span>
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+    <div class="container stats-wrap">
+      <div class="stats reveal" style="--d:.3s">
+        <p class="stats__main"><b class="mono">{stats.projectsTotal}+</b><span>{t('수행 연구 과제', 'research projects')}</span></p>
+        <ul class="stats__types">
+          {groups.map((g) => <li>{ko ? g.ko : g.en}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════ CLIENT NETWORK ═════════ -->
+  <section class="section network">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div>
+          <p class="eyebrow">{t('Clients & Partners', 'Clients & Partners')}</p>
+          {ko ? (
+            <h2 class="h2" style="margin-top:16px"><span>정부부처부터 학회까지</span>,<br />건설산업 전반이 찾는 연구실</h2>
+          ) : (
+            <h2 class="h2" style="margin-top:16px">Trusted across the industry —<br /><span>from ministries to societies</span></h2>
+          )}
+        </div>
+        <div class="network__side">
+          <p class="lead">
+            {t(
+              '국토교통부·국방부 같은 정부부처, LH·국토진흥원 등 공공기관, 한국연구재단과 국책연구기관, 대한건설협회를 비롯한 협회·단체, 대한토목학회·한국건설관리학회까지. 연구실은 건설산업의 거의 모든 주체와 함께 일해 왔습니다.',
+              'Ministries such as MOLIT and National Defense, public agencies such as LH and KAIA, national research institutes, industry associations and academic societies — almost every kind of player in Korean construction.',
+            )}
+          </p>
+          <a class="link-arrow" href={L('/research#clients')}>{t('발주·협력 기관 자세히', 'See our client network')} <Icon name="arrow" /></a>
+        </div>
+      </div>
+      <ClientNetwork lang={lang} />
+    </div>
+  </section>
+
+  <!-- ═════════ FEATURED ═════════ -->
+  <section class="section section--paper2 blueprint featured">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div>
+          <p class="eyebrow">Key Projects</p>
+          {ko ? (
+            <h2 class="h2" style="margin-top:16px">50여 건의 연구 중,<br /><span>제도와 현장을 바꾼</span> 사례</h2>
+          ) : (
+            <h2 class="h2" style="margin-top:16px">Out of 50+ projects —<br />the ones that <span>changed the rules</span></h2>
+          )}
+        </div>
+        <div class="network__side">
+          <p class="lead">{t('국가 발주제도 개편, 국방 메가프로그램, 건설로봇 R&D까지. 연구실의 대표 사례를 소개합니다.', 'A national procurement reform, a defense mega-program and construction robotics R&D — a few highlights from our portfolio.')}</p>
+          <a class="link-arrow" href={L('/research#cases')}>{t('주요 사례 모두 보기', 'See all key cases')} <Icon name="arrow" /></a>
+        </div>
+      </div>
+      <div class="feat-grid">
+        {homeFeatured.map((p, i) => {
+          const img = photoImg(p.image);
+          const a = AREAS[p.area];
+          const s = ko ? p.summary : p.summary_en ?? p.summary;
+          return (
+            <a class="feat-card reveal" href={L(`/research#case-${p.id}`)} style={`--c:${a.color}; --d:${i * 0.1}s`}>
+              <div class="feat-card__media">
+                {img && <Image src={img} alt="" widths={[480, 720]} sizes="(max-width: 900px) 100vw, 400px" />}
+                <span class="chip feat-card__chip"><i class="dot" style={`--c:${a.color}`}></i>{ko ? a.short : a.shortEn}</span>
+                {isOngoing(p) && <span class="chip chip--live feat-card__live">{t('진행 중', 'Ongoing')}</span>}
+              </div>
+              <div class="feat-card__body">
+                <p class="feat-card__meta mono">{period(p, lang)} · {clientName(p.client, lang)}</p>
+                <h3>{ko ? p.title : p.title_en ?? p.title}</h3>
+                {s && <p class="feat-card__outcome">{s.outcome}</p>}
+                <span class="feat-card__more">{t('사례 보기', 'Read the case')} <Icon name="arrow" size={16} /></span>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════ RESEARCH AREAS ═════════ -->
+  <section class="section areas" id="areas">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div>
+          <p class="eyebrow">Research Areas</p>
+          <h2 class="h2" style="margin-top:16px">{ko ? <>제도부터 현장까지<br />건설산업을 연구합니다</> : <>From policy to the field,<br />one industry</>}</h2>
+        </div>
+        <div class="network__side">
+          <p class="lead">{t('제도를 설계하는 정책 연구부터 현장을 바꾸는 기술 연구까지, 건설산업의 문제를 처음부터 끝까지 다룹니다.', 'From policy research that designs the rules to technology research that transforms the site — we cover the industry end to end.')}</p>
+        </div>
+      </div>
+      <div class="areas__grid">
+        {AREA_ORDER.map((k, i) => {
+          const a = AREAS[k];
+          return (
+            <a class="area-card reveal" href={L(`/research#area-${k}`)} style={`--c:${a.color}; --d:${i * 0.08}s`}>
+              <div class="area-card__art">
+                <Image src={photoImg(a.illust)!} alt="" widths={[400, 600, 800]} sizes="(max-width: 700px) 100vw, 300px" quality={80} />
+              </div>
+              <div class="area-card__body">
+                <h3 class="h3">{ko ? a.ko : a.en}</h3>
+                {ko && <p class="area-card__en mono">{a.en}</p>}
+                <p class="area-card__blurb">{ko ? a.blurb : a.blurbEn}</p>
+              </div>
+              <div class="area-card__foot">
+                <ul class="area-card__tags">{(ko ? a.tags : a.tagsEn).map((tag) => <li>{tag}</li>)}</ul>
+                <Icon name="arrow-up-right" size={20} />
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════ THIS QUARTER ═════════ -->
+  {updates.length > 0 && (
+    <section class="section section--tight now-sec">
+      <div class="container now">
+        <div>
+          <p class="eyebrow">This Quarter</p>
+          <h2 class="h3" style="margin-top:14px">{quarterLabel(updates[0].quarter)} {t('하이라이트', 'highlights')}</h2>
+        </div>
+        <ul>
+          {updates.map((u) => (
+            <li><span class="mono">{quarterLabel(u.quarter)}</span><p>{ko ? u.text : u.text_en ?? u.text}</p></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <!-- ═════════ CAREERS ═════════ -->
+  <section class="section careers">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div>
+          <p class="eyebrow">Careers</p>
+          <h2 class="h2" style="margin-top:16px">{ko ? <>CM 전공자,<br />졸업 후 어디로 갈까요?</> : <>Where a CM degree<br />can take you</>}</h2>
+        </div>
+        <div class="network__side">
+          <p class="lead">
+            {t(
+              '건설관리 전공자는 사업관리·원가·계약·정책을 아우르는 역량으로 CM·엔지니어링사, 건설사, 공공기관은 물론 금융, 컨설팅, 해외건설까지 폭넓게 진출할 수 있습니다.',
+              'With skills that span project controls, cost, contracts and policy, CM graduates can work at CM and engineering firms, contractors and public agencies — and in finance, consulting and global construction.',
+            )}
+          </p>
+          <a class="link-arrow" href={L('/people#careers')}>{t('진로 자세히 보기', 'Explore career paths')} <Icon name="arrow" /></a>
+        </div>
+      </div>
+      <div class="careers__map">
+        <CareerMap lang={lang} compact />
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════ JOIN CTA ═════════ -->
+  <section class="section section--navy blueprint join-cta">
+    <div class="container join-cta__inner">
+      <div>
+        <p class="eyebrow">Join CM Lab</p>
+        {ko ? (
+          <h2 class="h2 join-cta__title">함께 연구할<br /><span>석·박사 과정 연구원</span>을 찾습니다</h2>
+        ) : (
+          <h2 class="h2 join-cta__title">We are looking for<br /><span>M.S. and Ph.D. researchers</span></h2>
+        )}
+        <p class="lead" style="margin-top:22px">{t('국가 정책 과제와 산업 현장 연구에 직접 참여하며 성장하세요. 전공과 경력, 국적에 상관없이 환영합니다.', 'Grow by working on national policy projects and real industry research. All backgrounds and nationalities are welcome.')}</p>
+        <div class="hero__cta" style="margin-top:36px">
+          <a class="btn btn--accent" href={L('/join')}>{t('지원 안내 보기', 'How to apply')} <Icon name="arrow" /></a>
+          <a class="btn btn--ghost" href={L('/join#contact')}>{t('문의·방문 안내', 'Contact & visit')}</a>
+        </div>
+      </div>
+      <ul class="join-cta__facts">
+        <li><b class="mono">{stats.projectsTotal}+</b><span>{t('정부·공공·산업 연구 과제', 'Government, public & industry projects')}</span></li>
+        <li class="join-cta__plain"><span>{t('정부부처 · 공공기관 · 협회 · 학회 · 기업', 'Ministries · Agencies · Associations · Societies · Industry')}</span></li>
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* HERO */
+  .hero { padding-top: clamp(40px, 6vw, 88px); padding-bottom: clamp(40px, 5vw, 64px); overflow: hidden; border-bottom: 1px solid var(--line); }
+  .hero__grid { display: grid; gap: 40px; align-items: center; }
+  @media (min-width: 960px) { .hero__grid { grid-template-columns: 1.08fr 0.92fr; gap: 24px; } }
+  .hero__title { margin-top: 22px; }
+  .hero__title--en { font-size: clamp(34px, 4.3vw, 64px); }
+  .hero__title span { color: var(--orange-ink); }
+  .br-m { display: none; }
+  @media (max-width: 520px) { .br-m { display: inline; } }
+  .hero .lead { margin-top: 28px; }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+  .hero__visual { position: relative; }
+  .hero__photo { position: relative; border-radius: 22px; overflow: hidden; box-shadow: 0 30px 60px -24px rgba(15, 42, 68, 0.45); aspect-ratio: 4 / 3.4; }
+  .hero__img { width: 100%; height: 100%; object-fit: cover; }
+  .hero__photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(11, 31, 51, .55) 100%); pointer-events: none; }
+  .hero__badge { position: absolute; left: 16px; right: 16px; bottom: 16px; z-index: 1; display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 14px; background: rgba(255,255,255,.94); backdrop-filter: blur(8px); box-shadow: var(--shadow-2); font-weight: 700; font-size: 14.5px; letter-spacing: -0.02em; transition: transform .3s var(--ease); }
+  .hero__badge:hover { transform: translateY(-2px); }
+  .hero__badge span:last-child { display: grid; line-height: 1.35; }
+  .hero__badge small { font-size: 12px; color: var(--ink-3); font-weight: 500; }
+  @media (min-width: 960px) { .hero__badge { right: auto; max-width: 86%; } }
+  @media (max-width: 699px) { .hero__badge { top: 12px; bottom: auto; left: 12px; right: 12px; padding: 10px 12px; font-size: 13.5px; } .hero__photo::after { background: linear-gradient(0deg, transparent 55%, rgba(11, 31, 51, .45) 100%); } }
+  .stats-wrap { position: relative; }
+  .stats { margin: clamp(40px, 5vw, 64px) 0 0; padding: 22px 0 6px; border-top: 1.5px solid var(--ink); display: flex; flex-wrap: wrap; align-items: center; gap: 16px 40px; }
+  .stats__main { display: flex; align-items: baseline; gap: 10px; }
+  .stats__main b { font-size: clamp(40px, 4.6vw, 56px); font-weight: 600; letter-spacing: -0.04em; line-height: 1; color: var(--ink); }
+  .stats__main span { font-size: 16px; color: var(--ink-2); font-weight: 700; }
+  .stats__types { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+  .stats__types li { padding: 6px 13px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); font-size: 13.5px; font-weight: 600; color: var(--ink-2); }
+
+  .network__side { display: grid; gap: 20px; justify-items: start; }
+
+  /* FEATURED */
+  .featured { overflow: hidden; }
+  .feat-grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
+  .feat-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; transition: transform .4s var(--ease), box-shadow .4s var(--ease); }
+  .feat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); }
+  .feat-card__media { position: relative; aspect-ratio: 3 / 2; background: #efede6; overflow: hidden; }
+  .feat-card__media :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+  .feat-card:hover .feat-card__media :global(img) { transform: scale(1.04); }
+  .feat-card__chip { position: absolute; left: 14px; top: 14px; background: rgba(255,255,255,.92); backdrop-filter: blur(4px); }
+  .feat-card__live { position: absolute; right: 14px; top: 14px; background: rgba(255,255,255,.92); }
+  .feat-card__body { padding: 22px 24px 24px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .feat-card__meta { font-size: 12px; color: var(--ink-3); }
+  .feat-card h3 { font-size: 19px; line-height: 1.4; letter-spacing: -0.03em; }
+  .feat-card__outcome { font-size: 15px; color: var(--ink-2); line-height: 1.65; }
+  .feat-card__more { margin-top: auto; padding-top: 8px; display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 14.5px; color: var(--c); }
+
+  /* AREAS */
+  .areas__grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  @media (min-width: 1100px) { .areas__grid { grid-template-columns: repeat(4, 1fr); } }
+  .area-card {
+    position: relative; display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); overflow: hidden; transition: transform .4s var(--ease), box-shadow .4s var(--ease), border-color .3s;
+  }
+  .area-card::before { content: ''; position: absolute; inset: 0 0 auto; height: 4px; background: var(--c); transform: scaleX(0); transform-origin: left; transition: transform .5s var(--ease); z-index: 1; }
+  .area-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-2); border-color: transparent; }
+  .area-card:hover::before { transform: scaleX(1); }
+  .area-card__art { aspect-ratio: 4 / 3; overflow: hidden; background: var(--paper-2); }
+  .area-card__art :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+  @media (max-width: 700px) { .area-card__art { aspect-ratio: 16 / 9; } }
+  .area-card:hover .area-card__art :global(img) { transform: scale(1.05); }
+  .area-card__body { padding: 20px 24px 0; flex: 1; }
+  .area-card__no { font-size: 12.5px; color: var(--c); font-weight: 600; }
+  .area-card h3 { margin-top: 6px; }
+  .area-card__en { font-size: 12.5px; color: var(--ink-3); margin-top: 4px; letter-spacing: .02em; }
+  .area-card__blurb { margin-top: 14px; font-size: 15px; color: var(--ink-2); line-height: 1.65; }
+  .area-card__foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; padding: 16px 24px 20px; margin-top: 18px; border-top: 1px dashed var(--line); }
+  .area-card__tags { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+  .area-card__tags li { font-size: 12.5px; font-weight: 600; color: var(--ink-2); padding: 3px 9px; border-radius: 999px; background: color-mix(in srgb, var(--c) 9%, white); }
+  .area-card__foot :global(svg) { flex: none; color: var(--ink-3); transition: color .3s, transform .3s var(--ease); }
+  .area-card:hover .area-card__foot :global(svg) { color: var(--c); transform: translate(2px, -2px); }
+
+  /* NOW */
+  .now-sec { border-top: 1px solid var(--line); background: var(--surface); }
+  .now { display: grid; gap: 24px; }
+  @media (min-width: 900px) { .now { grid-template-columns: 0.6fr 1.4fr; gap: 72px; align-items: start; } }
+  .now ul { list-style: none; display: grid; }
+  .now li { display: grid; gap: 6px; padding: 16px 0; border-top: 1px solid var(--line); }
+  .now li:first-child { border-top: 0; padding-top: 0; }
+  .now li span { font-size: 12px; color: var(--orange-ink); font-weight: 600; }
+  .now li p { font-size: 16px; color: var(--ink); font-weight: 500; line-height: 1.6; }
+
+  /* CAREERS */
+  .careers { background: var(--paper-2); }
+  .careers__map { position: relative; }
+
+  /* JOIN CTA */
+  .join-cta { overflow: hidden; }
+  .join-cta__inner { display: grid; gap: 40px; position: relative; }
+  @media (min-width: 900px) { .join-cta__inner { grid-template-columns: 1.4fr 0.6fr; align-items: center; } }
+  .join-cta__title { margin-top: 18px; color: #fff; }
+  .join-cta__title span { color: #F4A06C; }
+  .join-cta__facts { list-style: none; display: grid; gap: 0; border-top: 1px solid rgba(255,255,255,.22); }
+  .join-cta__facts li { display: grid; gap: 4px; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,.22); }
+  .join-cta__facts b { font-size: clamp(34px, 3.6vw, 46px); font-weight: 600; letter-spacing: -0.04em; line-height: 1; color: #F4A06C; }
+  .join-cta__facts span { font-size: 15px; color: rgba(255,255,255,.82); font-weight: 600; }
+</style>

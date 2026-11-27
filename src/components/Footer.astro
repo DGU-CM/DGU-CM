@@ -1,0 +1,75 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { SITE } from '../site.config';
+import { url, LAST_UPDATED, THIS_YEAR } from '../lib/data';
+import { localePath, type Lang } from '../lib/i18n';
+interface Props { lang?: Lang }
+const { lang = 'en' } = Astro.props;
+const ko = lang === 'ko';
+const L = (p: string) => url(localePath(lang, p));
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <a class="brand" href={L('/')}>
+          <Logo inverse />
+          <span>
+            <strong>DGU CM Lab</strong>
+            <small>{ko ? `${SITE.university} ${SITE.department} 건설관리 및 경영 연구실` : `${SITE.nameEn}, ${SITE.universityEn}`}</small>
+          </span>
+        </a>
+        <p class="site-footer__slogan">{ko ? SITE.slogan.join(' ') : SITE.sloganEn}</p>
+      </div>
+      <div class="site-footer__cols">
+        <div>
+          <h2>{ko ? '사이트' : 'Site'}</h2>
+          <ul>
+            <li><a href={L('/about')}>About</a></li>
+            <li><a href={L('/research')}>Research</a></li>
+            <li><a href={L('/people')}>People</a></li>
+            <li><a href={L('/join')}>Join Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>{ko ? '언어' : 'Language'}</h2>
+          <ul>
+            <li><a href={url(localePath('en', '/'))} hreflang="en" data-lang="en">English</a></li>
+            <li><a href={url(localePath('ko', '/'))} hreflang="ko" lang="ko" data-lang="ko">한국어</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>{ko ? '찾아오시는 길' : 'Visit'}</h2>
+          <p class="addr"><Icon name="pin" size={16} />{ko ? SITE.location : SITE.locationEn}</p>
+          {SITE.email && <p class="addr"><Icon name="mail" size={16} /><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>}
+        </div>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <span>© {THIS_YEAR} {ko ? `${SITE.university} 건설관리 및 경영 연구실` : 'DGU CM Lab'}</span>
+      <span>{ko ? '최종 업데이트' : 'Last updated'} · <span class="mono">{LAST_UPDATED}</span></span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { background: #0b1f33; color: #b7c4d2; padding-block: 72px 32px; font-size: 15px; }
+  .site-footer__top { display: grid; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,.12); }
+  @media (min-width: 900px) { .site-footer__top { grid-template-columns: 1.2fr 1fr; } }
+  .brand { display: flex; gap: 14px; align-items: center; color: #fff; }
+  .brand span { display: grid; line-height: 1.3; }
+  .brand strong { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; }
+  .brand small { font-size: 13px; color: #8fa1b4; }
+  .site-footer__slogan { margin-top: 28px; font-size: clamp(20px, 2.2vw, 26px); color: #fff; font-weight: 700; letter-spacing: -0.03em; line-height: 1.4; max-width: 420px; }
+  .site-footer__cols { display: grid; gap: 36px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+  .site-footer__cols > div:last-child { grid-column: span 2; min-width: 0; }
+  @media (max-width: 520px) { .site-footer__cols > div:last-child { grid-column: 1 / -1; } }
+  h2 { font-size: 13px; letter-spacing: 0; color: #f4a06c; font-weight: 700; margin-bottom: 16px; }
+  ul { list-style: none; display: grid; gap: 8px; }
+  @media (max-width: 899px) { ul { gap: 0; } ul a { display: inline-block; padding-block: 10px; } }
+  a:hover { color: #fff; }
+  .addr { display: flex; gap: 8px; align-items: flex-start; line-height: 1.6; margin-bottom: 8px; }
+  .addr :global(svg) { flex: none; margin-top: 4px; }
+  .site-footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding-top: 24px; font-size: 13px; color: #8193a6; }
+</style>

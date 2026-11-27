@@ -1,0 +1,17 @@
+# ─────────────────────────────────────────────────────────────
+#  분기 하이라이트  (분기마다 1~3줄, 없으면 생략 가능)
+# ─────────────────────────────────────────────────────────────
+#  · quarter : "2027-Q1" 형식 (연도-Q분기)
+#  · 홈 화면에는 최근 두 분기 안의 항목만 보이고, 오래된 항목은 자동으로 숨겨집니다.
+#    (지우지 않아도 됩니다. 기록으로 남겨 두세요.)
+# ─────────────────────────────────────────────────────────────
+
+- id: 2026-q4-robot
+  quarter: 2026-Q4
+  text: 공동주택 건설생산성 혁신을 위한 다용도 건설작업로봇 설계·통합관리 기술 과제를 수행하고 있습니다.
+  text_en: We are developing multi-purpose construction robots and integrated management technology for apartment housing.
+
+- id: 2026-q4-site
+  quarter: 2026-Q4
+  text: 연구실 홈페이지를 새로 열었습니다. 연구 과제와 소식은 분기마다 업데이트됩니다.
+  text_en: Our new lab website is live. Projects and news are updated every quarter.
